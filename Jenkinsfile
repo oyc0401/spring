@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/oyc0401/your-repo.git'
+                git branch: 'main', url: 'https://github.com/oyc0401/spring.git'
             }
         }
 
