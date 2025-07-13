@@ -2,18 +2,14 @@ pipeline {
     agent any
 
     environment {
-        EC2_HOST = 'ubuntu@3.37.136.153'       // EC2 퍼블릭 IP 입력
+        JAVA_HOME = "/opt/homebrew/opt/openjdk@17"
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+        EC2_HOST = 'ubuntu@3.37.136.153'
         EC2_PATH = '/home/ubuntu/deploy'
-        APP_NAME = 'myapp-0.0.1-SNAPSHOT.jar'   // 빌드 결과물 JAR 이름
+        APP_NAME = 'myapp-0.0.1-SNAPSHOT.jar'
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/oyc0401/spring.git'
-            }
-        }
-
         stage('Build') {
             steps {
                 sh './gradlew clean build'
