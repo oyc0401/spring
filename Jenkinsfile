@@ -6,7 +6,7 @@ pipeline {
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
         EC2_HOST = 'ubuntu@3.37.136.153'
         EC2_PATH = '/home/ubuntu/deploy'
-        APP_NAME = 'myapp-0.0.1-SNAPSHOT.jar'
+        APP_NAME = 'demo-0.0.1-SNAPSHOT.jar'
     }
 
     stages {
