@@ -12,7 +12,7 @@ class HelloController {
     }
 
      @GetMapping("/api")
-    fun hello(): String {
+    fun api(): String {
         return "new api!!"
     }
 }
