@@ -10,4 +10,9 @@ class HelloController {
     fun hello(): String {
         return "Hello, Spring Boot!"
     }
+
+     @GetMapping("/api")
+    fun hello(): String {
+        return "new api!!"
+    }
 }
