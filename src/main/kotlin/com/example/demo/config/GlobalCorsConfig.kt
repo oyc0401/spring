@@ -1,4 +1,4 @@
-package com.example.config  // 패키지는 프로젝트에 맞게 수정하세요
+package com.example.demo  // 패키지는 프로젝트에 맞게 수정하세요
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
