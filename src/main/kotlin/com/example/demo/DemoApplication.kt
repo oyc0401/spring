@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @OpenAPIDefinition(
-    info = Info(title = "API 문서", version = "v1"),
-    servers = [Server(url = "https://test.rokafmail.kr", description = "도메인 설명")]
+    info = Info(title = "인잡 API 문서", version = "v1"),
+    servers = [Server(url = "https://test.rokafmail.kr", description = "개발용 도메인")]
 )
 @SpringBootApplication
 class DemoApplication
