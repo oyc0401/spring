@@ -1,6 +1,6 @@
 package com.example.demo.auth
 
-import com.example.demo.dto.LoginRequest
+import com.example.demo.auth.LoginRequest
 import org.springframework.web.bind.annotation.*
 
 @RestController

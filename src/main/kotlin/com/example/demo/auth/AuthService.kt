@@ -1,7 +1,7 @@
 package com.example.demo.auth
 
-import com.example.demo.dto.LoginRequest
-import com.example.demo.repository.UserRepository
+import com.example.demo.auth.LoginRequest
+import com.example.demo.user.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
