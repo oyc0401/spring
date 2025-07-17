@@ -18,14 +18,7 @@ class UserService(
         return userRepository.save(merged)
     }
 
-
-    fun getMyInfo(authHeader: String): User {
-        if (!authHeader.startsWith("Bearer ")) {
-            throw IllegalArgumentException("Invalid Authorization header")
-        }
-
-        val token = authHeader.removePrefix("Bearer ").trim()
-
+    fun getMyInfo(token: String): User {
         if (!jwtTokenProvider.validateToken(token)) {
             throw AuthenticationException("Invalid or expired token")
         }

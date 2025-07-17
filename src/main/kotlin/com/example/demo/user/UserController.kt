@@ -12,7 +12,12 @@ class UserController(private val userService: UserService) {
 
     @GetMapping("/me")
     fun getMyInfo(@RequestHeader("Authorization") authHeader: String): User {
-        return userService.getMyInfo(authHeader)
+        if (!authHeader.startsWith("Bearer ")) {
+            throw IllegalArgumentException("Invalid Authorization header")
+        }
+        val token = authHeader.removePrefix("Bearer ").trim()
+
+        return userService.getMyInfo(token)
     }
 
     @PutMapping("/{id}")
