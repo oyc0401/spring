@@ -16,6 +16,8 @@ data class User(
     var password: String? = null,
     @Column(name = "oauth_id", unique = true)
     var oauthId: String? = null,
+    @Column(name = "login_provider")
+    val loginProvider: String? = null,
 
     var name: String? = null,
 
