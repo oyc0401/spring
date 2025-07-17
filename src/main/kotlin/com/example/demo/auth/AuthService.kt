@@ -1,26 +1,33 @@
 package com.example.demo.auth
 
-import com.example.demo.auth.LoginRequest
+import com.example.demo.user.User
 import com.example.demo.user.UserRepository
 import org.springframework.stereotype.Service
-import com.example.demo.user.User
-import jakarta.servlet.http.HttpServletRequest
+import javax.naming.AuthenticationException
+
 @Service
 class AuthService(
     private val userRepository: UserRepository,
     private val jwtTokenProvider: JwtTokenProvider
 ) {
 
-    fun login(request: LoginRequest): String {
+    data class LoginResponse(
+        val accessToken: String,
+        val refreshToken: String
+    )
+
+    fun login(request: LoginRequest): LoginResponse {
         val user = userRepository.findByEmail(request.email)
-            ?: throw IllegalArgumentException("User not found")
+            ?: throw NoSuchElementException("User not found")
 
         if (user.password != request.password) {
-            throw IllegalArgumentException("Invalid password")
+            throw AuthenticationException("Invalid password")
         }
 
-        // access token only (refresh token은 나중에 추가)
-        return jwtTokenProvider.generateAccessToken(user.id)
+        val accessToken = jwtTokenProvider.generateAccessToken(user.id)
+        val refreshToken = jwtTokenProvider.generateRefreshToken(user.id)
+
+        return LoginResponse(accessToken, refreshToken)
     }
 
     fun getMyInfo(authHeader: String): User {
@@ -31,12 +38,37 @@ class AuthService(
         val token = authHeader.removePrefix("Bearer ").trim()
 
         if (!jwtTokenProvider.validateToken(token)) {
-            throw IllegalArgumentException("Invalid or expired token")
+            throw AuthenticationException("Invalid or expired token")
         }
 
         val userId = jwtTokenProvider.getUserIdFromToken(token)
 
         return userRepository.findById(userId)
-            .orElseThrow { IllegalArgumentException("User not found") }
+            .orElseThrow { NoSuchElementException("User not found") }
+    }
+
+    fun reissueAccessToken(refreshToken: String): String {
+        if (!jwtTokenProvider.validateRefreshToken(refreshToken)) {
+            throw AuthenticationException("Invalid or expired refresh token")
+        }
+
+        val userId = jwtTokenProvider.getUserIdFromRefreshToken(refreshToken)
+
+        return jwtTokenProvider.generateAccessToken(userId)
+    }
+
+    fun logout(authHeader: String) {
+        if (!authHeader.startsWith("Bearer ")) {
+            throw IllegalArgumentException("Invalid Authorization header")
+        }
+
+        val token = authHeader.removePrefix("Bearer ").trim()
+
+        if (!jwtTokenProvider.validateToken(token)) {
+            return
+        }
+
+        val userId = jwtTokenProvider.getUserIdFromToken(token)
+        jwtTokenProvider.removeRefreshToken(userId)
     }
 }
