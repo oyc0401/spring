@@ -13,17 +13,17 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException::class)
     fun handleIllegalArgument(e: IllegalArgumentException): ResponseEntity<ErrorResponse> {
-        return buildErrorResponse("BAD_REQUEST", e.message ?: "잘못된 요청입니다.", HttpStatus.BAD_REQUEST)
+        return buildErrorResponse("BAD_REQUEST", e.message ?: "BAD_REQUEST", HttpStatus.BAD_REQUEST)
     }
 
     @ExceptionHandler(AuthenticationException::class)
     fun handleAuthError(e: AuthenticationException): ResponseEntity<ErrorResponse> {
-        return buildErrorResponse("UNAUTHORIZED", e.message ?: "인증이 필요합니다.", HttpStatus.UNAUTHORIZED)
+        return buildErrorResponse("UNAUTHORIZED", e.message ?: "UNAUTHORIZED", HttpStatus.UNAUTHORIZED)
     }
 
     @ExceptionHandler(NoSuchElementException::class)
     fun handleNotFound(e: NoSuchElementException): ResponseEntity<ErrorResponse> {
-        return buildErrorResponse("NOT_FOUND", e.message ?: "리소스를 찾을 수 없습니다.", HttpStatus.NOT_FOUND)
+        return buildErrorResponse("NOT_FOUND", e.message ?: "NOT_FOUND", HttpStatus.NOT_FOUND)
 
     }
 
