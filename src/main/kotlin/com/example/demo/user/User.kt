@@ -12,5 +12,8 @@ data class User(
     @Column(nullable = false, unique = true)
     var username: String,
 
-    var password: String? = null
+    var password: String? = null,
+
+    var name: String? = null
 )
+
