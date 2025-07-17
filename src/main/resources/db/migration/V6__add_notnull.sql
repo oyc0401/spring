@@ -1,0 +1,5 @@
+ALTER TABLE users
+    MODIFY login_provider VARCHAR(255) NOT NULL;
+
+ALTER TABLE users
+    MODIFY name VARCHAR(255) NOT NULL;

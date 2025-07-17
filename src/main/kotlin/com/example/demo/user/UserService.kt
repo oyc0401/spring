@@ -12,10 +12,12 @@ class UserService(private val repo: UserRepository) {
         val user = User(
             email = request.email,
             password = request.password,
-            name = request.name
+            name = request.name,
+            loginProvider = "email",
         )
         return repo.save(user)
     }
+
     fun update(id: Int, dto: User): User {
         val entity = repo.findById(id).orElseThrow()
         val merged = entity.copy(email = dto.email, password = dto.password)

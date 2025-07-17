@@ -16,12 +16,15 @@ data class User(
     @Column(unique = true)
     var email: String? = null,
     var password: String? = null,
+
     @Column(name = "oauth_id", unique = true)
     var oauthId: String? = null,
-    @Column(name = "login_provider")
-    val loginProvider: String? = null,
 
-    var name: String? = null,
+    @Column(name = "login_provider", nullable = false)
+    val loginProvider: String,
+
+    @Column(nullable = false)
+    var name: String,
 
     @CreatedDate
     @Column(name = "created_at")
