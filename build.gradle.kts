@@ -24,7 +24,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation ("com.mysql:mysql-connector-j")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	implementation("org.flywaydb:flyway-mysql")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
