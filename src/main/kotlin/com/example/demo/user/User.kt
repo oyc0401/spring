@@ -21,10 +21,10 @@ data class User(
     var oauthId: String? = null,
 
     @Column(name = "login_provider", nullable = false)
-    val loginProvider: String,
+    var loginProvider: String = "",
 
     @Column(nullable = false)
-    var name: String,
+    var name: String = "",
 
     @CreatedDate
     @Column(name = "created_at")
