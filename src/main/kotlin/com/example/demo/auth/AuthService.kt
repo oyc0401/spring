@@ -27,6 +27,16 @@ class AuthService(
         val refreshToken: String
     )
 
+    fun registerByEmail(request: SignupRequest): User {
+        val user = User(
+            email = request.email,
+            password = request.password,
+            name = request.name,
+            loginProvider = "email",
+        )
+        return userRepository.save(user)
+    }
+
     fun login(request: LoginRequest): LoginResponse {
         val user = userRepository.findByEmail(request.email)
             ?: throw NoSuchElementException("User not found")
@@ -41,17 +51,16 @@ class AuthService(
         return LoginResponse(accessToken, refreshToken)
     }
 
+    fun getMyInfo(token: String): User {
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw AuthenticationException("Invalid or expired token")
+        }
 
-    fun registerByEmail(request: SignupRequest): User {
-        val user = User(
-            email = request.email,
-            password = request.password,
-            name = request.name,
-            loginProvider = "email",
-        )
-        return userRepository.save(user)
+        val userId = jwtTokenProvider.getUserIdFromToken(token)
+
+        return userRepository.findById(userId)
+            .orElseThrow { NoSuchElementException("User not found") }
     }
-
 
     fun reissueAccessToken(refreshToken: String): String {
         if (!jwtTokenProvider.validateRefreshToken(refreshToken)) {
@@ -63,13 +72,7 @@ class AuthService(
         return jwtTokenProvider.generateAccessToken(userId)
     }
 
-    fun logout(authHeader: String) {
-        if (!authHeader.startsWith("Bearer ")) {
-            throw IllegalArgumentException("Invalid Authorization header")
-        }
-
-        val token = authHeader.removePrefix("Bearer ").trim()
-
+    fun logout(token: String) {
         if (!jwtTokenProvider.validateToken(token)) {
             return
         }
@@ -78,6 +81,13 @@ class AuthService(
         jwtTokenProvider.removeRefreshToken(userId)
     }
 
-    fun delete(id: Int) = userRepository.deleteById(id)
+    fun remove(token: String) {
+        if (!jwtTokenProvider.validateToken(token)) {
+            return
+        }
+        val userId = jwtTokenProvider.getUserIdFromToken(token);
+        return userRepository.deleteById(userId)
+    }
+
 
 }

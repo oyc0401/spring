@@ -1,6 +1,10 @@
 package com.example.demo.auth
+
+import com.example.demo.user.User
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.web.bind.annotation.*
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/auth")
 class AuthController(
@@ -29,15 +33,25 @@ class AuthController(
         return AccessTokenResponse(newAccessToken)
     }
 
-
     @PostMapping("/logout")
-    fun logout(@RequestHeader("Authorization") authHeader: String) {
-        authService.logout(authHeader)
+    fun logout(@RequestHeader("Authorization") authHeader: String?) {
+        val token = getTokenFromHeader(authHeader)
+        authService.logout(token)
     }
 
-    @DeleteMapping("/{id}")
-    fun remove(@PathVariable id: Int) = authService.delete(id)
+    @GetMapping("/me")
+    fun getMyInfo(@RequestHeader("Authorization") authHeader: String?): User {
+        val token = getTokenFromHeader(authHeader)
 
+        return authService.getMyInfo(token)
+    }
+
+    @DeleteMapping("/me")
+    fun remove(@RequestHeader("Authorization") authHeader: String?) {
+        val token = getTokenFromHeader(authHeader);
+
+        authService.remove(token)
+    }
 
 
 }
