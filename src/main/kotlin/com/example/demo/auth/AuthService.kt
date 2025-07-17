@@ -23,10 +23,7 @@ class AuthService(
         return jwtTokenProvider.generateAccessToken(user.id)
     }
 
-  fun getMyInfo(request: HttpServletRequest): User {
-        val authHeader = request.getHeader("Authorization")
-            ?: throw IllegalArgumentException("Authorization header missing")
-
+    fun getMyInfo(authHeader: String): User {
         if (!authHeader.startsWith("Bearer ")) {
             throw IllegalArgumentException("Invalid Authorization header")
         }

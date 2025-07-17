@@ -10,7 +10,7 @@ import java.util.*
 class JwtTokenProvider {
     private val secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256)
 
-    private val accessTokenValidityInMs = 60 * 60 * 1000L // 1시간
+    private val accessTokenValidityInMs = 60 * 60 * 1000L *1 // 1시간
 
     fun generateAccessToken(userId: Int): String {
         val now = Date()

@@ -19,8 +19,8 @@ class AuthController(
     }
 
     @GetMapping("/me")
-    fun getMyInfo(request: HttpServletRequest): ResponseEntity<User> {
-        val user = authService.getMyInfo(request)
-        return ResponseEntity.ok(user)
+    fun getMyInfo(@RequestHeader("Authorization") authHeader: String): User {
+        return authService.getMyInfo(authHeader)
     }
+
 }
