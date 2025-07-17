@@ -1,7 +1,5 @@
 package com.example.demo.auth
-
 import org.springframework.web.bind.annotation.*
-import com.example.demo.user.User
 
 @RestController
 @RequestMapping("/api/auth")
@@ -16,8 +14,12 @@ class AuthController(
         val refreshToken: String
     )
 
+    @PostMapping("/register")
+    fun register(@RequestBody user: AuthService.SignupRequest) = authService.registerByEmail(user)
+
+
     @PostMapping("/login")
-    fun login(@RequestBody request: LoginRequest): AuthService.LoginResponse {
+    fun login(@RequestBody request: AuthService.LoginRequest): AuthService.LoginResponse {
         return authService.login(request)
     }
 
@@ -33,9 +35,9 @@ class AuthController(
         authService.logout(authHeader)
     }
 
-    @GetMapping("/me")
-    fun getMyInfo(@RequestHeader("Authorization") authHeader: String): User {
-        return authService.getMyInfo(authHeader)
-    }
+    @DeleteMapping("/{id}")
+    fun remove(@PathVariable id: Int) = authService.delete(id)
+
+
 
 }

@@ -1,28 +1,40 @@
 package com.example.demo.user
 
-import com.example.demo.user.dto.SignupRequest
+import com.example.demo.auth.JwtTokenProvider
 import org.springframework.stereotype.Service
+import javax.naming.AuthenticationException
 
 @Service
-class UserService(private val repo: UserRepository) {
+class UserService(
+    private val userRepository: UserRepository,
+    private val jwtTokenProvider: JwtTokenProvider
+) {
 
-    fun findAll(): List<User> = repo.findAll()
-
-    fun create(request: SignupRequest): User {
-        val user = User(
-            email = request.email,
-            password = request.password,
-            name = request.name,
-            loginProvider = "email",
-        )
-        return repo.save(user)
-    }
+    fun findAll(): List<User> = userRepository.findAll()
 
     fun update(id: Int, dto: User): User {
-        val entity = repo.findById(id).orElseThrow()
+        val entity = userRepository.findById(id).orElseThrow()
         val merged = entity.copy(email = dto.email, password = dto.password)
-        return repo.save(merged)
+        return userRepository.save(merged)
     }
 
-    fun delete(id: Int) = repo.deleteById(id)
+
+    fun getMyInfo(authHeader: String): User {
+        if (!authHeader.startsWith("Bearer ")) {
+            throw IllegalArgumentException("Invalid Authorization header")
+        }
+
+        val token = authHeader.removePrefix("Bearer ").trim()
+
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw AuthenticationException("Invalid or expired token")
+        }
+
+        val userId = jwtTokenProvider.getUserIdFromToken(token)
+
+        return userRepository.findById(userId)
+            .orElseThrow { NoSuchElementException("User not found") }
+    }
+
+
 }

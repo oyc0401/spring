@@ -11,6 +11,17 @@ class AuthService(
     private val jwtTokenProvider: JwtTokenProvider
 ) {
 
+    data class SignupRequest(
+        val email: String,
+        val password: String,
+        val name: String,
+    )
+
+    data class LoginRequest(
+        val email: String,
+        val password: String
+    )
+
     data class LoginResponse(
         val accessToken: String,
         val refreshToken: String
@@ -30,22 +41,17 @@ class AuthService(
         return LoginResponse(accessToken, refreshToken)
     }
 
-    fun getMyInfo(authHeader: String): User {
-        if (!authHeader.startsWith("Bearer ")) {
-            throw IllegalArgumentException("Invalid Authorization header")
-        }
 
-        val token = authHeader.removePrefix("Bearer ").trim()
-
-        if (!jwtTokenProvider.validateToken(token)) {
-            throw AuthenticationException("Invalid or expired token")
-        }
-
-        val userId = jwtTokenProvider.getUserIdFromToken(token)
-
-        return userRepository.findById(userId)
-            .orElseThrow { NoSuchElementException("User not found") }
+    fun registerByEmail(request: SignupRequest): User {
+        val user = User(
+            email = request.email,
+            password = request.password,
+            name = request.name,
+            loginProvider = "email",
+        )
+        return userRepository.save(user)
     }
+
 
     fun reissueAccessToken(refreshToken: String): String {
         if (!jwtTokenProvider.validateRefreshToken(refreshToken)) {
@@ -71,4 +77,7 @@ class AuthService(
         val userId = jwtTokenProvider.getUserIdFromToken(token)
         jwtTokenProvider.removeRefreshToken(userId)
     }
+
+    fun delete(id: Int) = userRepository.deleteById(id)
+
 }
