@@ -10,7 +10,7 @@ class UserService(private val repo: UserRepository) {
 
     fun create(request: SignupRequest): User {
         val user = User(
-            username = request.username,
+            email = request.email,
             password = request.password,
             name = request.name
         )
@@ -18,7 +18,7 @@ class UserService(private val repo: UserRepository) {
     }
     fun update(id: Int, dto: User): User {
         val entity = repo.findById(id).orElseThrow()
-        val merged = entity.copy(username = dto.username, password = dto.password)
+        val merged = entity.copy(email = dto.email, password = dto.password)
         return repo.save(merged)
     }
 

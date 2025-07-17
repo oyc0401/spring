@@ -11,10 +11,11 @@ data class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
 
-    @Column(nullable = false, unique = true)
-    var username: String?,
-
+    @Column(unique = true)
+    var email: String? = null,
     var password: String? = null,
+    @Column(name = "oauth_id", unique = true)
+    var oauthId: String? = null,
 
     var name: String? = null,
 
@@ -22,5 +23,5 @@ data class User(
     @Column(name = "created_at")
     var createdAt: LocalDateTime? = null,
 
-)
+    )
 

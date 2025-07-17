@@ -12,7 +12,7 @@ class AuthService(
 ) {
 
     fun login(request: LoginRequest): String {
-        val user = userRepository.findByUsername(request.username)
+        val user = userRepository.findByEmail(request.email)
             ?: throw IllegalArgumentException("User not found")
 
         if (user.password != request.password) {
