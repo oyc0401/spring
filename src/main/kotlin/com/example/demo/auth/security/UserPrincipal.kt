@@ -19,10 +19,4 @@ data class UserPrincipal(
     override fun isAccountNonLocked() = true
     override fun isCredentialsNonExpired() = true
     override fun isEnabled() = true
-
-    companion object {
-        fun fromToken(userId: Int, role: String): UserPrincipal {
-            return UserPrincipal(userId, role)
-        }
-    }
 }

@@ -1,7 +1,6 @@
 package com.example.demo.auth
 
 import com.example.demo.auth.security.UserPrincipal
-import com.example.demo.user.User
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
@@ -47,14 +46,9 @@ class AuthController(
         authService.logout(user.userId)
     }
 
-    @GetMapping("/me")
-    fun getMyInfo(@AuthenticationPrincipal user: UserPrincipal): User {
-        return authService.getMyInfo(user.userId)
-    }
-
-    @DeleteMapping("/me")
+    @DeleteMapping("/delete")
     fun remove(@AuthenticationPrincipal user: UserPrincipal) {
-        authService.remove(user.userId)
+        authService.delete(user.userId)
     }
 
 

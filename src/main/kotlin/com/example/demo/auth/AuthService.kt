@@ -9,6 +9,7 @@ import javax.naming.AuthenticationException
 @Service
 class AuthService(
     private val userRepository: UserRepository,
+    private val authRepository: AuthRepository,
     private val jwtTokenProvider: JwtTokenProvider
 ) {
 
@@ -34,44 +35,59 @@ class AuthService(
     )
 
     fun registerByEmail(request: SignupRequest): User {
-        val user = User(
+
+
+        val user = userRepository.save(
+            User(
+                name = request.name
+            )
+        )
+
+        val auth = Auth(
+            userId = user.id,
             email = request.email,
             password = request.password,
-            name = request.name,
             loginProvider = "email",
+            role = "user"
         )
-        return userRepository.save(user)
+
+        authRepository.save(auth)
+
+        return user
     }
 
     fun registerByGoogle(request: SignupProviderRequest): User {
         val sub = getUidFromGoogleToken(request.idToken)
 
-        val user = User(
+
+        val user = userRepository.save(
+            User(
+                name = request.name
+            )
+        )
+
+        val auth = Auth(
+            userId = user.id,
             oauthId = sub,
-            name = request.name,
             loginProvider = "google",
         )
-        return userRepository.save(user)
+
+        authRepository.save(auth)
+        return user
     }
 
     fun login(request: LoginRequest): LoginResponse {
-        val user = userRepository.findByEmail(request.email)
+        val auth = authRepository.findByEmail(request.email)
             ?: throw NoSuchElementException("User not found")
 
-        if (user.password != request.password) {
+        if (auth.password != request.password) {
             throw AuthenticationException("Invalid password")
         }
-        val role = if (user.id == 5) "ROLE_ADMIN" else "ROLE_USER"
 
-        val accessToken = jwtTokenProvider.generateAccessToken(user.id, role)
-        val refreshToken = jwtTokenProvider.generateRefreshToken(user.id)
+        val accessToken = jwtTokenProvider.generateAccessToken(auth.userId, auth.role)
+        val refreshToken = jwtTokenProvider.generateRefreshToken(auth.userId)
 
         return LoginResponse(accessToken, refreshToken)
-    }
-
-    fun getMyInfo(userId: Int): User {
-        return userRepository.findById(userId)
-            .orElseThrow { NoSuchElementException("User not found") }
     }
 
     fun reissueAccessToken(refreshToken: String): String {
@@ -81,19 +97,18 @@ class AuthService(
 
         val userId = jwtTokenProvider.getUserIdFromRefreshToken(refreshToken)
 
-//        val user = userRepository.findById(userId)
-//            .orElseThrow { NoSuchElementException("User not found") }
+        val auth = authRepository.findById(userId)
+            .orElseThrow { NoSuchElementException("User not found") }
 
-        val role = if (userId == 5) "ROLE_ADMIN" else "ROLE_USER"
-        return jwtTokenProvider.generateAccessToken(userId, role)
+        return jwtTokenProvider.generateAccessToken(userId, auth.role)
     }
 
     fun logout(userId: Int) {
         jwtTokenProvider.removeRefreshToken(userId)
     }
 
-    fun remove(userId: Int) {
-        return userRepository.deleteById(userId)
+    fun delete(userId: Int) {
+        return userRepository.deleteById(userId) // auth는 cascade로 delete됌.
     }
 
 
