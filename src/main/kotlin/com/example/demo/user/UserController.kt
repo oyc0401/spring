@@ -21,7 +21,4 @@ class UserController(private val userService: UserService) {
         return userService.getMyInfo(user.userId)
     }
 
-//    @PutMapping("/{id}")
-//    fun edit(@PathVariable id: Int, @RequestBody u: User) = userService.update(id, u)
-
 }
