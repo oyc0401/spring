@@ -1,10 +1,10 @@
-package com.example.demo.auth
+package com.example.demo.auth.security
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import org.springframework.stereotype.Component
-import java.util.*
+import java.util.Date
 import java.util.concurrent.ConcurrentHashMap
 
 @Component
@@ -22,8 +22,11 @@ class JwtTokenProvider {
         val now = Date()
         val expiryDate = Date(now.time + accessTokenValidityInMs)
 
+        val role = if (userId == 5) "ROLE_ADMIN" else "ROLE_USER"
+
         return Jwts.builder()
             .setSubject(userId.toString())
+            .claim("role", role)
             .setIssuedAt(now)
             .setExpiration(expiryDate)
             .signWith(secretKey)
@@ -84,6 +87,15 @@ class JwtTokenProvider {
             .parseClaimsJws(token)
             .body
         return claims.subject.toInt()
+    }
+
+    fun getRoleFromToken(token: String): String {
+        val claims = Jwts.parserBuilder()
+            .setSigningKey(secretKey)
+            .build()
+            .parseClaimsJws(token)
+            .body
+        return claims["role"] as? String ?: "ROLE_USER"
     }
 
     /** 리프레시 토큰에서 userId 추출 */

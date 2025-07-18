@@ -1,5 +1,6 @@
 package com.example.demo.auth
 
+import com.example.demo.auth.security.JwtTokenProvider
 import com.example.demo.user.User
 import com.example.demo.user.UserRepository
 import org.springframework.stereotype.Service
@@ -14,6 +15,11 @@ class AuthService(
     data class SignupRequest(
         val email: String,
         val password: String,
+        val name: String,
+    )
+
+    data class SignupProviderRequest(
+        val idToken: String,
         val name: String,
     )
 
@@ -37,6 +43,17 @@ class AuthService(
         return userRepository.save(user)
     }
 
+    fun registerByGoogle(request: SignupProviderRequest): User {
+        val sub = getUidFromGoogleToken(request.idToken)
+
+        val user = User(
+            oauthId = sub,
+            name = request.name,
+            loginProvider = "google",
+        )
+        return userRepository.save(user)
+    }
+
     fun login(request: LoginRequest): LoginResponse {
         val user = userRepository.findByEmail(request.email)
             ?: throw NoSuchElementException("User not found")
@@ -51,13 +68,7 @@ class AuthService(
         return LoginResponse(accessToken, refreshToken)
     }
 
-    fun getMyInfo(token: String): User {
-        if (!jwtTokenProvider.validateToken(token)) {
-            throw AuthenticationException("Invalid or expired token")
-        }
-
-        val userId = jwtTokenProvider.getUserIdFromToken(token)
-
+    fun getMyInfo(userId: Int): User {
         return userRepository.findById(userId)
             .orElseThrow { NoSuchElementException("User not found") }
     }
@@ -72,20 +83,11 @@ class AuthService(
         return jwtTokenProvider.generateAccessToken(userId)
     }
 
-    fun logout(token: String) {
-        if (!jwtTokenProvider.validateToken(token)) {
-            return
-        }
-
-        val userId = jwtTokenProvider.getUserIdFromToken(token)
+    fun logout(userId: Int) {
         jwtTokenProvider.removeRefreshToken(userId)
     }
 
-    fun remove(token: String) {
-        if (!jwtTokenProvider.validateToken(token)) {
-            return
-        }
-        val userId = jwtTokenProvider.getUserIdFromToken(token);
+    fun remove(userId: Int) {
         return userRepository.deleteById(userId)
     }
 

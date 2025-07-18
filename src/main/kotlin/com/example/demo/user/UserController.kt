@@ -1,7 +1,8 @@
 package com.example.demo.user
-
-import com.example.demo.auth.getTokenFromHeader
+import com.example.demo.auth.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
@@ -9,15 +10,15 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/users")
 class UserController(private val userService: UserService) {
 
+
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     fun all() = userService.findAll()
 
 
     @GetMapping("/me")
-    fun getMyInfo(@RequestHeader("Authorization") authHeader: String?): User {
-        val token = getTokenFromHeader(authHeader)
-
-        return userService.getMyInfo(token)
+    fun getMyInfo(@AuthenticationPrincipal user: UserPrincipal): User {
+        return userService.getMyInfo(user.userId)
     }
 
 //    @PutMapping("/{id}")
