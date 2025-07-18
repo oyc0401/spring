@@ -48,7 +48,7 @@ class AuthService(
             email = request.email,
             password = request.password,
             loginProvider = "email",
-            role = "user"
+            role = "USER"
         )
 
         authRepository.save(auth)
@@ -70,6 +70,7 @@ class AuthService(
             userId = user.id,
             oauthId = sub,
             loginProvider = "google",
+            role = "USER",
         )
 
         authRepository.save(auth)
