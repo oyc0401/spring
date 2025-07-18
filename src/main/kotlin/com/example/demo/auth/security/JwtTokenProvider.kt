@@ -18,11 +18,9 @@ class JwtTokenProvider {
     private val refreshTokenStore: MutableMap<Int, String> = ConcurrentHashMap()
 
     /** 액세스 토큰 생성 */
-    fun generateAccessToken(userId: Int): String {
+    fun generateAccessToken(userId: Int, role: String): String {
         val now = Date()
         val expiryDate = Date(now.time + accessTokenValidityInMs)
-
-        val role = if (userId == 5) "ROLE_ADMIN" else "ROLE_USER"
 
         return Jwts.builder()
             .setSubject(userId.toString())

@@ -61,8 +61,9 @@ class AuthService(
         if (user.password != request.password) {
             throw AuthenticationException("Invalid password")
         }
+        val role = if (user.id == 5) "ROLE_ADMIN" else "ROLE_USER"
 
-        val accessToken = jwtTokenProvider.generateAccessToken(user.id)
+        val accessToken = jwtTokenProvider.generateAccessToken(user.id, role)
         val refreshToken = jwtTokenProvider.generateRefreshToken(user.id)
 
         return LoginResponse(accessToken, refreshToken)
@@ -80,7 +81,11 @@ class AuthService(
 
         val userId = jwtTokenProvider.getUserIdFromRefreshToken(refreshToken)
 
-        return jwtTokenProvider.generateAccessToken(userId)
+//        val user = userRepository.findById(userId)
+//            .orElseThrow { NoSuchElementException("User not found") }
+
+        val role = if (userId == 5) "ROLE_ADMIN" else "ROLE_USER"
+        return jwtTokenProvider.generateAccessToken(userId, role)
     }
 
     fun logout(userId: Int) {
