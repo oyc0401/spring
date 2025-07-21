@@ -6,7 +6,7 @@ pipeline {
         AWS_REGION = 'ap-northeast-2'
         REPO_NAME = 'demo-app'
         IMAGE_TAG = 'latest'
-        ECR_REGISTRY = '<AWS_ACCOUNT_ID>.dkr.ecr.ap-northeast-2.amazonaws.com'
+        ECR_REGISTRY = '939867122515.dkr.ecr.ap-northeast-2.amazonaws.com/demo-app'
         EC2_HOST = 'ubuntu@3.37.136.153'
         EC2_PATH = '/home/ubuntu'
     }
