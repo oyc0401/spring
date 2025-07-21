@@ -2,15 +2,18 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = 'ap-northeast-2'
-        REPO_NAME = 'demo-app'
-        IMAGE_TAG = 'latest'
-        ECR_REGISTRY = '939867122515.dkr.ecr.ap-northeast-2.amazonaws.com'
+        DOCKERHUB_USER = 'oyc0401'
+        IMAGE_NAME     = 'spring-demo'
+        IMAGE_TAG      = 'latest'
+        FULL_IMAGE     = "${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
+
+        // 배포 대상 EC2
         EC2_HOST = 'ubuntu@3.37.136.153'
         EC2_PATH = '/home/ubuntu'
     }
 
     stages {
+
         stage('Build JAR') {
             steps {
                 sh './gradlew clean build'
@@ -19,23 +22,22 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker buildx build --platform linux/amd64 -t demo-app:latest .'
+                sh "docker buildx build --platform linux/amd64 -t ${FULL_IMAGE} ."
             }
         }
 
-        stage('Push to ECR') {
+        stage('Push to DockerHub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'aws-ecr-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DH_USER',
+                        passwordVariable: 'DH_TOKEN'
+                    )
+                ]) {
                     sh '''
-                        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-                        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-                        aws configure set region ${AWS_REGION}
-
-                        aws ecr get-login-password --region ${AWS_REGION} | \
-                        docker login --username AWS --password-stdin ${ECR_REGISTRY}
-
-                        docker tag ${REPO_NAME}:${IMAGE_TAG} ${ECR_REGISTRY}/${REPO_NAME}:${IMAGE_TAG}
-                        docker push ${ECR_REGISTRY}/${REPO_NAME}:${IMAGE_TAG}
+                        echo $DH_TOKEN | docker login -u $DH_USER --password-stdin
+                        docker push ${FULL_IMAGE}
                     '''
                 }
             }
@@ -43,19 +45,26 @@ pipeline {
 
         stage('Deploy on EC2') {
             steps {
-                sshagent(credentials: ['ec2-ssh-key']) {
-                    sh """
-                        ssh ${EC2_HOST} '
-                            aws ecr get-login-password --region ${AWS_REGION} | \
-                                docker login --username AWS --password-stdin ${ECR_REGISTRY} &&
-                            docker pull ${ECR_REGISTRY}/${REPO_NAME}:${IMAGE_TAG} &&
-                            docker stop app || true &&
-                            docker rm app || true &&
-                            docker run -d --name app \\
-                                --env-file ${EC2_PATH}/deploy/.env \\
-                                -p 8080:8080 ${ECR_REGISTRY}/${REPO_NAME}:${IMAGE_TAG}
-                        '
-                    """
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DH_USER',
+                        passwordVariable: 'DH_TOKEN'
+                    )
+                ]) {
+                    sshagent(credentials: ['ec2-ssh-key']) {
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ${EC2_HOST} '
+                                echo ${DH_TOKEN} | docker login -u ${DH_USER} --password-stdin &&
+                                docker pull ${FULL_IMAGE} &&
+                                docker stop app || true &&
+                                docker rm app   || true &&
+                                docker run -d --name app \
+                                    --env-file ${EC2_PATH}/deploy/.env \
+                                    -p 8080:8080 ${FULL_IMAGE}
+                            '
+                        """
+                    }
                 }
             }
         }
