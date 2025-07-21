@@ -6,8 +6,6 @@ pipeline {
         IMAGE_NAME     = 'spring-demo'
         IMAGE_TAG      = 'latest'
         FULL_IMAGE     = "${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
-
-        // 배포 대상 EC2
         EC2_HOST = 'ubuntu@3.37.136.153'
         EC2_PATH = '/home/ubuntu'
     }
@@ -60,6 +58,7 @@ pipeline {
                                 docker stop app || true &&
                                 docker rm app   || true &&
                                 docker run -d --name app \
+                                    --restart=always \
                                     --env-file ${EC2_PATH}/deploy/.env \
                                     -p 8080:8080 ${FULL_IMAGE}
                             '
