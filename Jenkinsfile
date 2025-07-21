@@ -19,7 +19,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t ${REPO_NAME}:${IMAGE_TAG} .'
+                sh 'docker buildx build --platform linux/amd64 -t demo-app:latest .'
             }
         }
 
