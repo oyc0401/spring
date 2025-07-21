@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        PATH = "/opt/homebrew/bin:${env.PATH}"
         AWS_REGION = 'ap-northeast-2'
         REPO_NAME = 'demo-app'
         IMAGE_TAG = 'latest'
