@@ -52,7 +52,7 @@ pipeline {
                             docker stop app || true &&
                             docker rm app || true &&
                             docker run -d --name app \\
-                                --env-file ${EC2_PATH}/.env \\
+                                --env-file ${EC2_PATH}/deploy/.env \\
                                 -p 8080:8080 ${ECR_REGISTRY}/${REPO_NAME}:${IMAGE_TAG}
                         '
                     """
