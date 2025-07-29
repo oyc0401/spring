@@ -9,7 +9,10 @@ quit;
 
 mysql -u root -p
 
-brew services start mysql    
+brew services start mysql   
+
+
+docker run --env-file .env -p 8080:8080 spring-ubuntu-app
 
 # EC2
 java -jar demo-0.0.1-SNAPSHOT.jar
