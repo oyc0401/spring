@@ -20,6 +20,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
+                env | sort
+                which docker || echo "no docker"
+                docker version || echo "docker not working"
                 sh "docker buildx build --platform linux/amd64 -t ${FULL_IMAGE} ."
             }
         }
