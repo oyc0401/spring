@@ -1,12 +1,11 @@
-FROM ubuntu:22.04
+FROM --platform=linux/arm64 ubuntu:22.04
 
-# Java 설치 (OpenJDK 17 예시)
 RUN apt-get update && \
     apt-get install -y openjdk-17-jdk && \
-    apt-get clean
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+COPY build/libs/*.jar app.jar
 
-COPY build/libs/demo-0.0.1-SNAPSHOT.jar app.jar
-
-CMD ["java", "-jar", "app.jar"]
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app/app.jar"]

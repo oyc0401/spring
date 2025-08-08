@@ -20,7 +20,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker buildx build --platform linux/amd64 -t ${FULL_IMAGE} ."
+                sh "docker buildx build -t ${FULL_IMAGE} ."
             }
         }
 
