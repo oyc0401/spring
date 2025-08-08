@@ -1,11 +1,11 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" version="28.0.7">
   <diagram name="페이지-1" id="HZmdHl-DIuU1iqDuJJp0">
-    <mxGraphModel dx="823" dy="530" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1051" dy="678" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="65h-Gdv-DMRU2zTLTygP-1" value="Users" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="200" y="240" width="140" height="570" as="geometry" />
+          <mxGeometry x="170" y="240" width="140" height="570" as="geometry" />
         </mxCell>
         <mxCell id="65h-Gdv-DMRU2zTLTygP-2" value="&lt;b&gt;PK&lt;/b&gt; id: Int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="65h-Gdv-DMRU2zTLTygP-1">
           <mxGeometry y="30" width="140" height="30" as="geometry" />
@@ -61,6 +61,9 @@
         <mxCell id="65h-Gdv-DMRU2zTLTygP-4" value="created&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;At: Time&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="65h-Gdv-DMRU2zTLTygP-1">
           <mxGeometry y="540" width="140" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="65h-Gdv-DMRU2zTLTygP-105" value="1:1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="65h-Gdv-DMRU2zTLTygP-5" target="65h-Gdv-DMRU2zTLTygP-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="65h-Gdv-DMRU2zTLTygP-5" value="Auth" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="360" y="240" width="140" height="210" as="geometry" />
         </mxCell>
@@ -81,6 +84,11 @@
         </mxCell>
         <mxCell id="65h-Gdv-DMRU2zTLTygP-11" value="password: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="65h-Gdv-DMRU2zTLTygP-5">
           <mxGeometry y="180" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="65h-Gdv-DMRU2zTLTygP-106" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="65h-Gdv-DMRU2zTLTygP-18" target="65h-Gdv-DMRU2zTLTygP-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="65h-Gdv-DMRU2zTLTygP-18" value="Contest" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="560" y="240" width="140" height="510" as="geometry" />
@@ -222,6 +230,9 @@
         </mxCell>
         <mxCell id="65h-Gdv-DMRU2zTLTygP-103" value="상세는 그냥 string으로 넣고&lt;br&gt;그 안에 포맷 맞춰서&lt;br&gt;볼드체나 이미지 url도&lt;br&gt;같이 안에 넣을건지?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="550" y="155" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="65h-Gdv-DMRU2zTLTygP-104" value="일부러 pk따로 둬서&lt;br&gt;검색시간 단축" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#d6b656;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="735" y="430" width="120" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
