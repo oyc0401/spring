@@ -11,7 +11,34 @@ pipeline {
     }
 
     stages {
+        stage('Build JAR') {
+            steps {
+                sh './gradlew clean build'
+            }
+        }
 
+        stage('Build Docker Image') {
+            steps {
+                sh "docker buildx build --platform linux/amd64 -t ${FULL_IMAGE} ."
+            }
+        }
+
+        stage('Push to DockerHub') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DH_USER',
+                        passwordVariable: 'DH_TOKEN'
+                    )
+                ]) {
+                    sh '''
+                        echo $DH_TOKEN | docker login -u $DH_USER --password-stdin
+                        docker push ${FULL_IMAGE}
+                    '''
+                }
+            }
+        }
 
         stage('Deploy on EC2') {
             steps {
