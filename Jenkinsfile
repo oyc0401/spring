@@ -7,7 +7,7 @@ pipeline {
         IMAGE_TAG      = 'latest'
         FULL_IMAGE     = "${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
         EC2_HOST = 'ec2-user@43.203.39.226'
-        EC2_PATH = '/root/ec2-user'
+        EC2_PATH = '/home/ec2-user'
     }
 
     stages {
