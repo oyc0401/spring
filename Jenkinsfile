@@ -6,11 +6,12 @@ pipeline {
         IMAGE_NAME     = 'spring-demo'
         IMAGE_TAG      = 'latest'
         FULL_IMAGE     = "${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
-        EC2_HOST = 'ec2-user@43.203.39.226'
-        EC2_PATH = '/home/ec2-user'
+        EC2_HOST = 'ubuntu@43.203.39.226'
+        EC2_PATH = '/home/ubuntu'
     }
 
     stages {
+
         stage('Build JAR') {
             steps {
                 sh './gradlew clean build'
@@ -58,7 +59,7 @@ pipeline {
                                 docker rm app   || true &&
                                 docker run -d --name app \
                                     --restart=always \
-                                    --env-file ${EC2_PATH}/injob/.env \
+                                    --env-file ${EC2_PATH}/deploy/.env \
                                     -p 8080:8080 ${FULL_IMAGE}
                             '
                         """
