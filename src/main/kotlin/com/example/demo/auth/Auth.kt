@@ -1,5 +1,6 @@
 package com.example.demo.auth
 
+import com.example.demo.user.User
 import jakarta.persistence.*
 
 @Entity
@@ -9,8 +10,20 @@ data class Auth(
     @Column(name = "user_id")
     val userId: Int = 0,
 
+    // user <- auth
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(
+        name = "user_id",
+        foreignKey = ForeignKey(
+            name = "fk_auth_user",
+            foreignKeyDefinition = "FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE"
+        )
+    )
+    val user: User? = null,
+
     @Column(unique = true)
-    var email: String? = null,
+    var username: String? = null,
 
     var password: String? = null,
 

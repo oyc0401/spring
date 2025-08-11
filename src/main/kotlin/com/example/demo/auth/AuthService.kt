@@ -14,7 +14,7 @@ class AuthService(
 ) {
 
     data class SignupRequest(
-        val email: String,
+        val username: String,
         val password: String,
         val name: String,
     )
@@ -25,7 +25,7 @@ class AuthService(
     )
 
     data class LoginRequest(
-        val email: String,
+        val username: String,
         val password: String
     )
 
@@ -34,7 +34,7 @@ class AuthService(
         val refreshToken: String
     )
 
-    fun registerByEmail(request: SignupRequest): User {
+    fun registerByCredentials(request: SignupRequest): User {
 
 
         val user = userRepository.save(
@@ -45,9 +45,9 @@ class AuthService(
 
         val auth = Auth(
             userId = user.id,
-            email = request.email,
+            username = request.username,
             password = request.password,
-            loginProvider = "email",
+            loginProvider = "credentials",
             role = "ROLE_USER"
         )
 
@@ -78,7 +78,7 @@ class AuthService(
     }
 
     fun login(request: LoginRequest): LoginResponse {
-        val auth = authRepository.findByEmail(request.email)
+        val auth = authRepository.findByUsername(request.username)
             ?: throw NoSuchElementException("User not found")
 
         if (auth.password != request.password) {

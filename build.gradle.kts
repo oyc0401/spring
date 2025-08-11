@@ -1,8 +1,19 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.flywaydb:flyway-mysql:11.11.0")      // ★ MySQL용 Flyway DB 모듈 (플러그인 클래스패스)
+		classpath("com.mysql:mysql-connector-j:8.4.0")      // ★ JDBC 드라이버도 플러그인 클래스패스에
+	}
+}
+
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.5.3"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("org.flywaydb.flyway") version "11.7.2"   // ← 이 한 줄
 }
 
 group = "com.example"

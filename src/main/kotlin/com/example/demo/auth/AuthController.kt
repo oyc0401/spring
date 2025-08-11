@@ -20,7 +20,7 @@ class AuthController(
     )
 
     @PostMapping("/register")
-    fun register(@RequestBody user: AuthService.SignupRequest) = authService.registerByEmail(user)
+    fun register(@RequestBody user: AuthService.SignupRequest) = authService.registerByCredentials(user)
 
 
     @PostMapping("/register/google")
