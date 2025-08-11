@@ -1,2 +1,2 @@
-ALTER TABLE testdb.users
+ALTER TABLE users
     ADD name VARCHAR(255) NULL;
