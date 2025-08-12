@@ -32,7 +32,7 @@ data class User(
     @Column(name = "grade")
     var grade: String? = null, // 성적
 
-    @Column(name = "is_grade_public")
+    @Column(name = "is_grade_public", nullable = false, columnDefinition = "Boolean DEFAULT 0")
     var isGradePublic: Boolean = false, // 성적 공개 여부
 
     @Column(name = "residence_city")
@@ -41,7 +41,7 @@ data class User(
     @Column(name = "residence_country")
     var residenceCountry: String? = null, // 거주국가
 
-    @Column(name = "is_residence_public")
+    @Column(name = "is_residence_public", nullable = false, columnDefinition = "Boolean DEFAULT 0")
     var isResidencePublic: Boolean = false, // 거주지 공개 여부
 
     @Column(name = "bio", length = 255)
@@ -49,8 +49,6 @@ data class User(
 
     @Column(name = "vision", length = 500)
     var vision: String? = null // 비전
-
-
 
 
 )
