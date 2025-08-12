@@ -45,6 +45,10 @@ class AuthService(
 
     fun registerByCredentials(request: SignupRequest): User {
 
+        // 1. 유저네임 중복 검사
+        if (authRepository.existsByUsername(request.username)) {
+            throw IllegalArgumentException("이미 사용 중인 유저네임입니다.")
+        }
 
         val user = userRepository.save(
             User(
@@ -84,6 +88,7 @@ class AuthService(
             fallbackName = req.name
         )
 
+    // 유저 반환되면 클라에서 로그인 api또 호출하게...? 아니면 여기서 아예 다 로그인처리..?
     private fun registerCommon(
         decoder: JwtDecoder,
         provider: String,
@@ -99,7 +104,8 @@ class AuthService(
 //        val email = jwt.getClaim<String>("email")   // 애플은 이후 null일 수 있음
 //        val nameFromToken = jwt.getClaim<String>("name")
 
-        // 1) 이미 가입된 UID면 기존 유저 반환(또는 로그인 처리)
+
+        // 1) 이미 가입된 UID면 기존 유저 반환
         authRepository.findByLoginProviderAndOauthId(provider, uid)?.let { existing ->
             return userRepository.findById(existing.userId).orElseThrow()
         }
@@ -112,10 +118,9 @@ class AuthService(
             )
         )
 
-        // 3) Auth 매핑 저장 (유니크 제약: (login_provider, oauth_id))
         authRepository.save(
             Auth(
-                user = user,
+                user = user, // 같은 트랜잭션이라 이렇게 전달해야함.
                 loginProvider = provider,
                 oauthId = uid,
                 role = "ROLE_USER",

@@ -6,4 +6,6 @@ interface AuthRepository : JpaRepository<Auth, Int> {
     fun findByUsername(username: String): Auth?
 
     fun findByLoginProviderAndOauthId(provider: String, uid: String): Auth?;
+
+    fun existsByUsername(username: String): Boolean;
 }
