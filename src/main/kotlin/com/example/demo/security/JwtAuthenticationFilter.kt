@@ -1,4 +1,4 @@
-package com.example.demo.auth.security
+package com.example.demo.security
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

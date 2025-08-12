@@ -1,4 +1,4 @@
-package com.example.demo.auth.security
+package com.example.demo.security
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority

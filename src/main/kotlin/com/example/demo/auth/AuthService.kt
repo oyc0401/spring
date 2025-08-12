@@ -1,6 +1,6 @@
 package com.example.demo.auth
 
-import com.example.demo.auth.security.JwtTokenProvider
+import com.example.demo.security.JwtTokenProvider
 import com.example.demo.user.User
 import com.example.demo.user.UserRepository
 import org.springframework.beans.factory.annotation.Qualifier

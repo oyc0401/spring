@@ -1,6 +1,6 @@
 package com.example.demo.auth
 
-import com.example.demo.auth.security.UserPrincipal
+import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*

@@ -1,5 +1,5 @@
 package com.example.demo.user
-import com.example.demo.auth.security.UserPrincipal
+import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize

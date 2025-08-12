@@ -1,4 +1,4 @@
-package com.example.demo.auth.security
+package com.example.demo.security
 
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
