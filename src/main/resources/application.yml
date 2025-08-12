@@ -1,0 +1,5 @@
+google:
+  client-id: YOUR_GOOGLE_OAUTH_CLIENT_ID  # 웹/앱의 client_id
+
+apple:
+  client-id: your-apple-client-id

@@ -41,7 +41,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 	implementation("com.github.loki4j:loki-logback-appender:1.4.0")
-
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

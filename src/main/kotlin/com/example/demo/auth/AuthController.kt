@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/auth")
 class AuthController(
-    private val authService: AuthService
+    private val authService: AuthService,
 ) {
     data class AccessTokenResponse(
         val accessToken: String
@@ -24,14 +24,18 @@ class AuthController(
 
 
     @PostMapping("/register/google")
-    fun registerGoogle(@RequestBody user: AuthService.SignupProviderRequest) {
+    fun registerGoogle(@RequestBody user: AuthService.SignupProviderRequest) =
         authService.registerByGoogle(user)
-    }
 
 
     @PostMapping("/login")
     fun login(@RequestBody request: AuthService.LoginRequest): AuthService.LoginResponse {
         return authService.login(request)
+    }
+
+    @PostMapping("/loginGoogle")
+    fun loginGoogle(@RequestBody request: AuthService.LoginProviderRequest): AuthService.LoginResponse {
+        return authService.loginGoogle(request)
     }
 
 

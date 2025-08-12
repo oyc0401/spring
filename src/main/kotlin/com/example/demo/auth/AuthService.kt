@@ -3,14 +3,19 @@ package com.example.demo.auth
 import com.example.demo.auth.security.JwtTokenProvider
 import com.example.demo.user.User
 import com.example.demo.user.UserRepository
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import javax.naming.AuthenticationException
+import org.springframework.security.oauth2.jwt.JwtDecoder
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AuthService(
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
+    @Qualifier("googleJwtDecoder") private val google: JwtDecoder,
+    @Qualifier("appleJwtDecoder") private val apple: JwtDecoder,
 ) {
 
     data class SignupRequest(
@@ -29,6 +34,10 @@ class AuthService(
         val password: String
     )
 
+    data class LoginProviderRequest(
+        val idToken: String,
+    )
+
     data class LoginResponse(
         val accessToken: String,
         val refreshToken: String
@@ -42,9 +51,10 @@ class AuthService(
                 name = request.name
             )
         )
+        System.out.println(user.id)
 
         val auth = Auth(
-            userId = user.id,
+            user = user,
             username = request.username,
             password = request.password,
             loginProvider = "credentials",
@@ -56,24 +66,62 @@ class AuthService(
         return user
     }
 
-    fun registerByGoogle(request: SignupProviderRequest): User {
-        val sub = getUidFromGoogleToken(request.idToken)
+    @Transactional
+    fun registerByGoogle(req: SignupProviderRequest): User =
+        registerCommon(
+            decoder = google,
+            provider = "google",
+            idToken = req.idToken,
+            fallbackName = req.name
+        )
 
+    @Transactional
+    fun registerByApple(req: SignupProviderRequest): User =
+        registerCommon(
+            decoder = apple,
+            provider = "apple", // ✅ 버그 수정
+            idToken = req.idToken,
+            fallbackName = req.name
+        )
 
+    private fun registerCommon(
+        decoder: JwtDecoder,
+        provider: String,
+        idToken: String,
+        fallbackName: String
+    ): User {
+//        val jwt = try {
+//            decoder.decode(idToken)
+//        } catch (ex: Exception) {
+//            throw AuthenticationException("Invalid token:" + ex)
+//        }
+        val uid = idToken // jwt.subject                       // 고유 UID(sub)
+//        val email = jwt.getClaim<String>("email")   // 애플은 이후 null일 수 있음
+//        val nameFromToken = jwt.getClaim<String>("name")
+
+        // 1) 이미 가입된 UID면 기존 유저 반환(또는 로그인 처리)
+        authRepository.findByLoginProviderAndOauthId(provider, uid)?.let { existing ->
+            return userRepository.findById(existing.userId).orElseThrow()
+        }
+
+        // 2) 신규 유저 생성
         val user = userRepository.save(
             User(
-                name = request.name
+                name = fallbackName,
+//                email = email // nullable 허용 시
             )
         )
 
-        val auth = Auth(
-            userId = user.id,
-            oauthId = sub,
-            loginProvider = "google",
-            role = "ROLE_USER",
+        // 3) Auth 매핑 저장 (유니크 제약: (login_provider, oauth_id))
+        authRepository.save(
+            Auth(
+                user = user,
+                loginProvider = provider,
+                oauthId = uid,
+                role = "ROLE_USER",
+            )
         )
 
-        authRepository.save(auth)
         return user
     }
 
@@ -90,6 +138,28 @@ class AuthService(
 
         return LoginResponse(accessToken, refreshToken)
     }
+
+    @Transactional(readOnly = true)
+    fun loginGoogle(request: LoginProviderRequest): LoginResponse {
+        // 1) ID 토큰 검증 + 디코딩 (서명/iss/aud/exp 자동 검증)
+//        val jwt = try {
+//            google.decode(request.idToken)
+//        } catch (ex: Exception) {
+//            throw AuthenticationException("Invalid Google ID token:" + ex)
+//        }
+
+        // 2) UID(sub) 추출
+        val uid = request.idToken //jwt.subject
+        val auth = authRepository.findByLoginProviderAndOauthId("google", uid)
+            ?: throw NoSuchElementException("User not found")
+
+        // 4) 우리 서비스용 토큰 발급
+        val accessToken = jwtTokenProvider.generateAccessToken(auth.userId, auth.role)
+        val refreshToken = jwtTokenProvider.generateRefreshToken(auth.userId)
+
+        return LoginResponse(accessToken, refreshToken)
+    }
+
 
     fun reissueAccessToken(refreshToken: String): String {
         if (!jwtTokenProvider.validateRefreshToken(refreshToken)) {
