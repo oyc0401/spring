@@ -1,31 +1,35 @@
 #Document
 https://test.rokafmail.kr/swagger-ui/index.html
 
-#Command
-quit;
-
-#Local
+# java 실행
 ./gradlew bootRun
 
-mysql -u root -p
-
-brew services start mysql   
-
-
-docker run --env-file .env -p 8080:8080 spring-ubuntu-app
-
-# EC2
+# java 빌드된거 실행
 java -jar demo-0.0.1-SNAPSHOT.jar
 
+# 로컬에서 도커 실행
+docker run --env-file .env -p 8080:8080 spring-ubuntu-app
+
+# 로컬에서 mysql 실행
+brew services start mysql
+
+# 로컬에서 mysql 접속
+mysql -u root -p
+
+# Ec2에서 mysql 접속
 mysql -h injob-db.c3qasa8yqxzu.ap-northeast-2.rds.amazonaws.com -u admin -p
 USE testdb;
 DESCRIBE users;
+quit;
 
-injob-db.c3qasa8yqxzu.ap-northeast-2.rds.amazonaws.com
+# 로컬 체크썸 맞추기
+./gradlew flywayRepair \
+-Dflyway.url=jdbc:mysql://localhost:3306/testdb \
+-Dflyway.user=root \
+-Dflyway.password=chan0401 \
+-Dflyway.locations=filesystem:src/main/resources/db/migration
 
-
-
-# flyway 플래그 지우기
+# Ec2에서 flyway 플래그 지우기
 docker run --rm \
 -v $(pwd)/src/main/resources/db/migration:/flyway/sql \
 flyway/flyway \
@@ -33,3 +37,9 @@ flyway/flyway \
 -user=admin \
 -password=<pw> \
 repair
+
+
+
+
+
+# 권한 추가하기

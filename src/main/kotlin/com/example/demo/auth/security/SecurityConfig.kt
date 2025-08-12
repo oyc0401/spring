@@ -35,7 +35,8 @@ class SecurityConfig(
                         "/api/auth/me",
                         "/api/auth/logout",
                         "/api/auth/remove",
-                        "/users/me"
+                        "/users/me",
+                        "/users/update"
                     ).authenticated()
                     .requestMatchers(
                         "/users/all"

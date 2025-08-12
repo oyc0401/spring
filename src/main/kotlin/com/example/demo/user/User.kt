@@ -21,5 +21,37 @@ data class User(
     @Column(name = "created_at")
     var createdAt: LocalDateTime? = null,
 
+
+    var email: String? = null,
+
+    var school: String? = null,
+
+    @Column(name = "school_status")
+    var schoolStatus: String? = null,
+
+    @Column(name = "grade")
+    var grade: String? = null, // 성적
+
+    @Column(name = "is_grade_public")
+    var isGradePublic: Boolean = false, // 성적 공개 여부
+
+    @Column(name = "residence_city")
+    var residenceCity: String? = null, // 거주지
+
+    @Column(name = "residence_country")
+    var residenceCountry: String? = null, // 거주국가
+
+    @Column(name = "is_residence_public")
+    var isResidencePublic: Boolean = false, // 거주지 공개 여부
+
+    @Column(name = "bio", length = 255)
+    var bio: String? = null, // 한 줄 소개
+
+    @Column(name = "vision", length = 500)
+    var vision: String? = null // 비전
+
+
+
+
 )
 

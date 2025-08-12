@@ -13,7 +13,8 @@ plugins {
 	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.5.3"
 	id("io.spring.dependency-management") version "1.1.7"
-	id("org.flywaydb.flyway") version "11.7.2"   // ← 이 한 줄
+	id("org.flywaydb.flyway") version "11.7.2"
+	kotlin("kapt") version "1.9.24"
 }
 
 group = "com.example"
@@ -42,6 +43,15 @@ dependencies {
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 	implementation("com.github.loki4j:loki-logback-appender:1.4.0")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+
+	// JsonNullable
+	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
+
+	// MapStruct
+	implementation("org.mapstruct:mapstruct:1.6.0")
+	kapt("org.mapstruct:mapstruct-processor:1.6.0")
+
+
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -57,6 +67,10 @@ kotlin {
 	compilerOptions {
 		freeCompilerArgs.addAll("-Xjsr305=strict")
 	}
+}
+
+kapt {
+	correctErrorTypes = true
 }
 
 tasks.withType<Test> {
