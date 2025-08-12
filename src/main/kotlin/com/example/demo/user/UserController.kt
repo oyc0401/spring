@@ -22,14 +22,14 @@ class UserController(private val userService: UserService) {
         return userService.getMyInfo(user.userId)
     }
 
-    @PostMapping("/{id}/update")
-    fun update(
-        @PathVariable id: Int,
-        @RequestBody dto: UserUpdateDto
-    ): ResponseEntity<UserResponse> {
-        val updated = userService.postStylePartialUpdate(id, dto)
-        return ResponseEntity.ok(UserResponse.from(updated))
-    }
+//    @PostMapping("/{id}/update")
+//    fun update(
+//        @PathVariable id: Int,
+//        @RequestBody dto: UserUpdateDto
+//    ): ResponseEntity<UserResponse> {
+//        val updated = userService.postStylePartialUpdate(id, dto)
+//        return ResponseEntity.ok(UserResponse.from(updated))
+//    }
 
     @PostMapping("/update")
     fun updateMe(

@@ -1,6 +1,5 @@
 package com.example.demo.user.portfolio
 
-import com.example.demo.user.mapper.ExperienceMapper
 import org.springframework.stereotype.Service
 import java.util.NoSuchElementException
 
@@ -13,12 +12,6 @@ class ExperienceService(
         val title: String,
         val details: String,
     )
-
-    data class ExperienceUpdateDto(
-        val title: String?,
-        val details: String?,
-    )
-
 
     fun addExperience(userId: Int, request: ExperienceRequest): Experience {
         val experience = Experience(
@@ -35,6 +28,17 @@ class ExperienceService(
         return experienceRepository.findByUserId(userId)
     }
 
+    fun getExperience(userId: Int, experienceId: Int): Experience {
+        val experience = experienceRepository.findById(experienceId)
+            .orElseThrow { NoSuchElementException("Experience not found") }
+
+        if (experience.userId != userId) {
+            throw IllegalArgumentException("Access denied: Experience does not belong to user")
+        }
+
+        return experience
+    }
+
     fun updateExperience(userId: Int, experienceId: Int, dto: ExperienceUpdateDto): Experience {
         val experience = experienceRepository.findById(experienceId)
             .orElseThrow { NoSuchElementException("Experience not found") }
@@ -45,5 +49,16 @@ class ExperienceService(
 
         mapper.partialUpdate(experience, dto)
         return experience // JPA dirty checking으로 자동 저장
+    }
+
+    fun deleteExperience(userId: Int, experienceId: Int) {
+        val experience = experienceRepository.findById(experienceId)
+            .orElseThrow { NoSuchElementException("Experience not found") }
+
+        if (experience.userId != userId) {
+            throw IllegalArgumentException("Access denied: Experience does not belong to user")
+        }
+
+        experienceRepository.delete(experience)
     }
 }

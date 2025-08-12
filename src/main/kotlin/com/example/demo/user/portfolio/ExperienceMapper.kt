@@ -23,3 +23,4 @@ abstract class ExperienceMapper {
         dto.details.ifPresent { experience.details = it }
     }
 }
+

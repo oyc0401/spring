@@ -2,13 +2,9 @@ package com.example.demo.user.portfolio
 
 import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
@@ -22,6 +18,14 @@ class ExperienceController(
         @AuthenticationPrincipal user: UserPrincipal
     ): List<Experience> {
         return experienceService.getExperiences(user.userId)
+    }
+
+    @GetMapping("/{id}")
+    fun getExperience(
+        @AuthenticationPrincipal user: UserPrincipal,
+        @PathVariable id: Int
+    ): Experience {
+        return experienceService.getExperience(user.userId, id)
     }
 
     @PostMapping("/add")
@@ -39,5 +43,14 @@ class ExperienceController(
         @RequestBody dto: ExperienceUpdateDto
     ): Experience {
         return experienceService.updateExperience(user.userId, id, dto)
+    }
+
+    @DeleteMapping("/{id}")
+    fun deleteExperience(
+        @AuthenticationPrincipal user: UserPrincipal,
+        @PathVariable id: Int
+    ): ResponseEntity<Unit> {
+        experienceService.deleteExperience(user.userId, id)
+        return ResponseEntity.ok().build()
     }
 }
