@@ -19,7 +19,7 @@ class Experience(
     val id: Int = 0,
 
     @Column(name = "user_id", nullable = false)
-    var userId: Int, // 조인 안 함. FK는 DB에서만 관리
+    var userId: Int = 0, // 조인 안 함. FK는 DB에서만 관리
 
     @Column(nullable = false, length = 120)
     var title: String = "",
