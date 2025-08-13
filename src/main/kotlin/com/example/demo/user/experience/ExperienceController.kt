@@ -2,13 +2,15 @@ package com.example.demo.user.experience
 
 import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("/users/experience")
+@Tag(name = "user.experience-controller", description = "보유 경력 API")
+@RequestMapping("/user/experience")
 class ExperienceController(
     private val experienceService: ExperienceService
 ) {

@@ -2,13 +2,15 @@ package com.example.demo.user.activity
 
 import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("/users/activity")
+@Tag(name = "user.activity-controller", description = "보유 대외활동 API")
+@RequestMapping("/user/activity")
 class ActivityController(
     private val activityService: ActivityService
 ) {

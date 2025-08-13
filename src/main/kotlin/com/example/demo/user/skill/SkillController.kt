@@ -2,13 +2,15 @@ package com.example.demo.user.skill
 
 import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("/users/skill")
+@Tag(name = "user.skill-controller", description = "보유 기술 API")
+@RequestMapping("/user/skill")
 class SkillController(
     private val skillService: SkillService
 ) {

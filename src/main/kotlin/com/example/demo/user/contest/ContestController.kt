@@ -2,13 +2,15 @@ package com.example.demo.user.contest
 
 import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("/users/contest")
+@Tag(name = "user.contest-controller", description = "참여 공모전 API")
+@RequestMapping("/user/contest")
 class ContestController(
     private val contestService: ContestService
 ) {

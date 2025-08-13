@@ -1,6 +1,7 @@
 package com.example.demo.user
 import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -8,9 +9,9 @@ import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
+@Tag(name = "users-controller", description = "유저 정보 API")
 @RequestMapping("/users")
 class UserController(private val userService: UserService) {
-
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
