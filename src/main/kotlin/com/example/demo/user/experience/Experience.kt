@@ -1,4 +1,4 @@
-package com.example.demo.user.portfolio
+package com.example.demo.user.experience
 
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate

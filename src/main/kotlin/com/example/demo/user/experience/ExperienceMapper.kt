@@ -1,9 +1,7 @@
 
-package com.example.demo.user.portfolio
+package com.example.demo.user.experience
 
-import com.example.demo.user.ifPresent
 import org.mapstruct.*
-import org.springframework.stereotype.Component
 
 @Mapper(componentModel = "spring")
 abstract class ExperienceMapper {

@@ -1,5 +1,5 @@
 
-package com.example.demo.user.portfolio
+package com.example.demo.user.experience
 
 import org.openapitools.jackson.nullable.JsonNullable
 

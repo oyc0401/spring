@@ -1,4 +1,4 @@
-package com.example.demo.user.portfolio
+package com.example.demo.user.experience
 
 import org.springframework.data.jpa.repository.JpaRepository
 
