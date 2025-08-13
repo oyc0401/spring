@@ -1,0 +1,5 @@
+ALTER TABLE contents
+    ADD type VARCHAR(255) NULL;
+
+ALTER TABLE contents
+    MODIFY type VARCHAR(255) NOT NULL;

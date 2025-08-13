@@ -9,12 +9,14 @@ class ContentService(
     private val mapper: ContentMapper
 ) {
     data class ContentRequest(
+        val type: String = "",
         val viewCount: Int = 0,
         val bookmarkCount: Int = 0
     )
 
     fun addContent(request: ContentRequest): Content {
         val content = Content(
+            type = request.type,
             viewCount = request.viewCount,
             bookmarkCount = request.bookmarkCount
         )

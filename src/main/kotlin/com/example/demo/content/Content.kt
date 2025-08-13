@@ -13,6 +13,9 @@ data class Content(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
 
+    @Column(name = "type", nullable = false)
+    var type: String = "",
+
     @Column(name = "view_count", nullable = false, columnDefinition = "INT DEFAULT 0")
     var viewCount: Int = 0,
 
