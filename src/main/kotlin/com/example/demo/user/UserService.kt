@@ -25,4 +25,8 @@ class UserService(
         return user // flush는 트랜잭션 종료 시
     }
 
+    fun delete(userId: Int) {
+        return userRepository.deleteById(userId) // auth는 cascade로 delete됌.
+    }
+
 }

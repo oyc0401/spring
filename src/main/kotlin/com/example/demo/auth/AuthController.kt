@@ -50,10 +50,7 @@ class AuthController(
         authService.logout(user.userId)
     }
 
-    @DeleteMapping("/delete")
-    fun remove(@AuthenticationPrincipal user: UserPrincipal) {
-        authService.delete(user.userId)
-    }
+
 
 
 }

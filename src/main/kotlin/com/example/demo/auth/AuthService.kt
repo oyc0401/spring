@@ -183,9 +183,7 @@ class AuthService(
         jwtTokenProvider.removeRefreshToken(userId)
     }
 
-    fun delete(userId: Int) {
-        return userRepository.deleteById(userId) // auth는 cascade로 delete됌.
-    }
+
 
 
 }

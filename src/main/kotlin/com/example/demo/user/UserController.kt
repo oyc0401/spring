@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
-@Tag(name = "users-controller", description = "유저 정보 API")
-@RequestMapping("/users")
+@Tag(name = "user-controller", description = "유저 정보 API")
+@RequestMapping("/user")
 class UserController(private val userService: UserService) {
 
     @GetMapping("/all")
@@ -18,7 +18,7 @@ class UserController(private val userService: UserService) {
     fun all() = userService.findAll()
 
 
-    @GetMapping("/me")
+    @GetMapping("/")
     fun getMyInfo(@AuthenticationPrincipal user: UserPrincipal): User {
         return userService.getMyInfo(user.userId)
     }
@@ -41,6 +41,11 @@ class UserController(private val userService: UserService) {
         return ResponseEntity.ok(UserResponse.from(updated))
     }
 
+
+    @DeleteMapping("/delete")
+    fun remove(@AuthenticationPrincipal user: UserPrincipal) {
+        userService.delete(user.userId)
+    }
 
 }
 
