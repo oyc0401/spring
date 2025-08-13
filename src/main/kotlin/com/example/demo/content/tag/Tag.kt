@@ -10,5 +10,5 @@ class Tag(
     val id: Int = 0,
 
     @Column(name = "tag_name", nullable = false, unique = true)
-    val tagName: String = ""
+    var tagName: String = ""
 )

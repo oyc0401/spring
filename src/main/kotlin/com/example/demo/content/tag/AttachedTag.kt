@@ -17,5 +17,5 @@ class AttachedTag(
     val tag: Tag,
 
     @Column(nullable = false)
-    val name: String = ""
+    var name: String = ""
 )
