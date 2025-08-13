@@ -18,7 +18,6 @@ abstract class RecommendMapper {
      */
     @AfterMapping
     protected fun after(@MappingTarget recommend: Recommend, dto: RecommendUpdateDto) {
-        dto.title.ifPresent { it?.let { v -> recommend.title = v } }
-        dto.details.ifPresent { recommend.details = it }
+        dto.view.ifPresent { recommend.view = it }
     }
 }

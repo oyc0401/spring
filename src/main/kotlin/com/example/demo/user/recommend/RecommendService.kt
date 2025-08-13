@@ -9,15 +9,14 @@ class RecommendService(
     private val mapper: RecommendMapper
 ) {
     data class RecommendRequest(
-        val title: String,
-        val details: String,
+        val contentId: Int,
+        val view: Boolean = false
     )
 
     fun addRecommend(userId: Int, request: RecommendRequest): Recommend {
         val recommend = Recommend(
-            userId = userId,
-            title = request.title,
-            details = request.details
+            id = RecommendId(userId = userId, contentId = request.contentId),
+            view = request.view
         )
 
         return recommendRepository.save(recommend)
@@ -27,37 +26,23 @@ class RecommendService(
         return recommendRepository.findByUserId(userId)
     }
 
-    fun getRecommend(userId: Int, recommendId: Int): Recommend {
-        val recommend = recommendRepository.findById(recommendId)
-            .orElseThrow { NoSuchElementException("Recommend not found") }
-
-        if (recommend.userId != userId) {
-            throw IllegalArgumentException("Access denied: Recommend does not belong to user")
-        }
-
-        return recommend
+    fun getRecommend(userId: Int, contentId: Int): Recommend {
+        return recommendRepository.findByUserIdAndContentId(userId, contentId)
+            ?: throw NoSuchElementException("Recommend not found")
     }
 
-    fun updateRecommend(userId: Int, recommendId: Int, dto: RecommendUpdateDto): Recommend {
-        val recommend = recommendRepository.findById(recommendId)
-            .orElseThrow { NoSuchElementException("Recommend not found") }
-
-        if (recommend.userId != userId) {
-            throw IllegalArgumentException("Access denied: Recommend does not belong to user")
-        }
+    fun updateRecommend(userId: Int, contentId: Int, dto: RecommendUpdateDto): Recommend {
+        val recommend = recommendRepository.findByUserIdAndContentId(userId, contentId)
+            ?: throw NoSuchElementException("Recommend not found")
 
         mapper.partialUpdate(recommend, dto)
         return recommend // JPA dirty checking으로 자동 저장
     }
 
-    fun deleteRecommend(userId: Int, recommendId: Int) {
-        val recommend = recommendRepository.findById(recommendId)
-            .orElseThrow { NoSuchElementException("Recommend not found") }
+    fun deleteRecommend(userId: Int, contentId: Int) {
+        val recommend = recommendRepository.findByUserIdAndContentId(userId, contentId)
+            ?: throw NoSuchElementException("Recommend not found")
 
-        if (recommend.userId != userId) {
-            throw IllegalArgumentException("Access denied: Recommend does not belong to user")
-        }
-
-        recommendRepository.delete(recommend)
+        recommendRepository.deleteByUserIdAndContentId(userId, contentId)
     }
 }

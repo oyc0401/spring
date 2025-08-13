@@ -8,25 +8,14 @@ import java.time.LocalDateTime
 @Entity
 @EntityListeners(AuditingEntityListener::class)
 @Table(
-    name = "recommends",
-    indexes = [
-        Index(name = "idx_recommend_user", columnList = "user_id"),
-    ]
+    name = "recommends"
 )
 class Recommend(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int = 0,
+    @EmbeddedId
+    var id: RecommendId = RecommendId(),
 
-    @Column(name = "user_id", nullable = false)
-    var userId: Int = 0, // 조인 안 함. FK는 DB에서만 관리
-
-    @Column(nullable = false, length = 120)
-    var title: String = "",
-
-    @Lob
-    @Column(name = "details")
-    var details: String? = null,
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    var view: Boolean = false,
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)

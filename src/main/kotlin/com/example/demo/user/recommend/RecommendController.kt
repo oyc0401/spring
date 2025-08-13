@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("/users/recommend")
+@RequestMapping("/users/recommends")
 class RecommendController(
     private val recommendService: RecommendService
 ) {
@@ -20,12 +20,12 @@ class RecommendController(
         return recommendService.getRecommends(user.userId)
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{contentId}")
     fun getRecommend(
         @AuthenticationPrincipal user: UserPrincipal,
-        @PathVariable id: Int
+        @PathVariable contentId: Int
     ): Recommend {
-        return recommendService.getRecommend(user.userId, id)
+        return recommendService.getRecommend(user.userId, contentId)
     }
 
     @PostMapping("/add")
@@ -36,21 +36,21 @@ class RecommendController(
         return recommendService.addRecommend(user.userId, request)
     }
 
-    @PostMapping("/{id}/update")
+    @PostMapping("/{contentId}/update")
     fun updateRecommend(
         @AuthenticationPrincipal user: UserPrincipal,
-        @PathVariable id: Int,
+        @PathVariable contentId: Int,
         @RequestBody dto: RecommendUpdateDto
     ): Recommend {
-        return recommendService.updateRecommend(user.userId, id, dto)
+        return recommendService.updateRecommend(user.userId, contentId, dto)
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{contentId}")
     fun deleteRecommend(
         @AuthenticationPrincipal user: UserPrincipal,
-        @PathVariable id: Int
+        @PathVariable contentId: Int
     ): ResponseEntity<Unit> {
-        recommendService.deleteRecommend(user.userId, id)
+        recommendService.deleteRecommend(user.userId, contentId)
         return ResponseEntity.ok().build()
     }
 }
