@@ -2,12 +2,14 @@ package com.example.demo.user.recentSearch
 
 import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
+@Tag(name = "user.recent-search-controller", description = "최근 검색어 API")
 @RequestMapping("/users/recent-search")
 class RecentSearchController(
     private val recentSearchService: RecentSearchService

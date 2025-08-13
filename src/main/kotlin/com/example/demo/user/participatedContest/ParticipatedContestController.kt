@@ -2,12 +2,14 @@ package com.example.demo.user.participatedContest
 
 import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
+@Tag(name = "user.participated-contents-controller", description = "참여 공모전 API")
 @RequestMapping("/users/participated-contests")
 class ParticipatedContestController(
     private val participatedContestService: ParticipatedContestService
