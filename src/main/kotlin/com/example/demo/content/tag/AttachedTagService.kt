@@ -1,5 +1,6 @@
 package com.example.demo.content.tag
 
+import com.example.demo.content.tagType.Tag
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

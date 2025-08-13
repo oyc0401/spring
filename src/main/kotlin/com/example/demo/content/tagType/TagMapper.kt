@@ -1,4 +1,4 @@
-package com.example.demo.content.tag
+package com.example.demo.content.tagType
 
 import org.mapstruct.*
 

@@ -1,5 +1,6 @@
 package com.example.demo.content.tag
 
+import com.example.demo.content.tagType.Tag
 import jakarta.persistence.*
 
 @Entity
