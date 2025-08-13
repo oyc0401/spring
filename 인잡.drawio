@@ -193,16 +193,13 @@
           <mxGeometry y="60" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="65h-Gdv-DMRU2zTLTygP-93" value="태그 부착" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1080" y="720" width="140" height="120" as="geometry" />
+          <mxGeometry x="1080" y="720" width="140" height="90" as="geometry" />
         </mxCell>
         <mxCell id="65h-Gdv-DMRU2zTLTygP-96" value="&lt;b&gt;PK&amp;nbsp;&lt;/b&gt;postId: int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="65h-Gdv-DMRU2zTLTygP-93" vertex="1">
           <mxGeometry y="30" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="65h-Gdv-DMRU2zTLTygP-94" value="&lt;b&gt;PK&amp;nbsp;&lt;/b&gt;tagId: Int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="65h-Gdv-DMRU2zTLTygP-93" vertex="1">
           <mxGeometry y="60" width="140" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="65h-Gdv-DMRU2zTLTygP-95" value="tagname: string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="65h-Gdv-DMRU2zTLTygP-93" vertex="1">
-          <mxGeometry y="90" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="65h-Gdv-DMRU2zTLTygP-97" value="이렇게 따로 id 안붙이고&lt;br&gt;복합키로 하는게 나을까?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="360" y="470" width="140" height="40" as="geometry" />
