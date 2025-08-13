@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Table(
     name = "recommends"
 )
-class Recommend(
+data class Recommend(
     @EmbeddedId
     var id: RecommendId = RecommendId(),
 

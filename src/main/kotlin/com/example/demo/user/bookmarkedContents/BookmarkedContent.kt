@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Table(
     name = "bookmarked_contents"
 )
-class BookmarkedContent(
+data class BookmarkedContent(
     @EmbeddedId
     var id: BookmarkedContentId = BookmarkedContentId(),
 

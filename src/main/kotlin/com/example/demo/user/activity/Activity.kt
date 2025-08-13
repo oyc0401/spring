@@ -13,7 +13,7 @@ import java.time.LocalDateTime
         Index(name = "idx_activity_user", columnList = "user_id"),
     ]
 )
-class Activity(
+data class Activity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,

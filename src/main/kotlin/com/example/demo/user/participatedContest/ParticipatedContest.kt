@@ -1,4 +1,4 @@
-package com.example.demo.user.contest
+package com.example.demo.user.participatedContest
 
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
@@ -8,12 +8,12 @@ import java.time.LocalDateTime
 @Entity
 @EntityListeners(AuditingEntityListener::class)
 @Table(
-    name = "contests",
+    name = "participated_contests",
     indexes = [
-        Index(name = "idx_contest_user", columnList = "user_id"),
+        Index(name = "idx_participated_contest_user", columnList = "user_id"),
     ]
 )
-class Contest(
+data class ParticipatedContest(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
