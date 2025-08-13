@@ -28,6 +28,12 @@ class Experience(
     @Column(name = "details")
     var details: String? = null,
 
+    @Column(name = "start_date", length = 20)
+    var startDate: String? = null,
+
+    @Column(name = "end_date", length = 20)
+    var endDate: String? = null,
+
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
     var priority: Int = 0,
 

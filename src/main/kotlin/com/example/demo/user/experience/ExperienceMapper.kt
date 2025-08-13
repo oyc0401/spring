@@ -1,7 +1,9 @@
 
 package com.example.demo.user.experience
 
+import com.example.demo.user.ifPresent
 import org.mapstruct.*
+import org.springframework.stereotype.Component
 
 @Mapper(componentModel = "spring")
 abstract class ExperienceMapper {
@@ -19,6 +21,8 @@ abstract class ExperienceMapper {
     protected fun after(@MappingTarget experience: Experience, dto: ExperienceUpdateDto) {
         dto.title.ifPresent { it?.let { v -> experience.title = v } }
         dto.details.ifPresent { experience.details = it }
+        dto.startDate.ifPresent { experience.startDate = it }
+        dto.endDate.ifPresent { experience.endDate = it }
     }
 }
 

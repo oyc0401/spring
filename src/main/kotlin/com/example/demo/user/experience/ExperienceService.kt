@@ -11,13 +11,17 @@ class ExperienceService(
     data class ExperienceRequest(
         val title: String,
         val details: String,
+        val startDate: String? = null,
+        val endDate: String? = null
     )
 
     fun addExperience(userId: Int, request: ExperienceRequest): Experience {
         val experience = Experience(
             userId = userId,
             title = request.title,
-            details = request.details
+            details = request.details,
+            startDate = request.startDate,
+            endDate = request.endDate
         )
 
         return experienceRepository.save(experience)
