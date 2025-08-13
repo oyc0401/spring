@@ -1,8 +1,6 @@
 package com.example.demo.content
 
-import com.example.demo.user.ifPresent
 import org.mapstruct.*
-import org.springframework.stereotype.Component
 
 @Mapper(componentModel = "spring")
 abstract class ContentMapper {
@@ -19,6 +17,6 @@ abstract class ContentMapper {
     @AfterMapping
     protected fun after(@MappingTarget content: Content, dto: ContentUpdateDto) {
         dto.viewCount.ifPresent { content.viewCount = it }
-        dto.scrapCount.ifPresent { content.scrapCount = it }
+        dto.bookmarkCount.ifPresent { content.bookmarkCount = it }
     }
 }

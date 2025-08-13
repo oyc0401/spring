@@ -13,11 +13,11 @@ data class Content(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
 
-    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
+    @Column(name = "view_count", nullable = false, columnDefinition = "INT DEFAULT 0")
     var viewCount: Int = 0,
 
-    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
-    var scrapCount: Int = 0,
+    @Column(name = "bookmark_count", nullable = false, columnDefinition = "INT DEFAULT 0")
+    var bookmarkCount: Int = 0,
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)

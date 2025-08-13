@@ -10,13 +10,13 @@ class ContentService(
 ) {
     data class ContentRequest(
         val viewCount: Int = 0,
-        val scrapCount: Int = 0
+        val bookmarkCount: Int = 0
     )
 
     fun addContent(request: ContentRequest): Content {
         val content = Content(
             viewCount = request.viewCount,
-            scrapCount = request.scrapCount
+            bookmarkCount = request.bookmarkCount
         )
 
         return contentRepository.save(content)
