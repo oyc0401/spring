@@ -27,29 +27,11 @@ data class Contest(
     @OnDelete(action = OnDeleteAction.CASCADE)
     var content: Content? = null,
 
-    @Column(name = "banner_url", length = 500)
-    var bannerUrl: String? = null,
-
-    @Column(name = "title", nullable = false, length = 200)
-    var title: String = "",
-
     @Column(name = "subtitle", length = 200)
     var subtitle: String? = null,
 
-    @Column(name = "writer", length = 100)
-    var writer: String? = null,
-
-    @Column(name = "company_type", length = 100) // 기업형태
-    var companyType: String? = null,
-
     @Column(name = "target_participants", length = 200) // 참여대상
     var targetParticipants: String? = null,
-
-    @Column(name = "start_time")
-    var startTime: LocalDateTime? = null,
-
-    @Column(name = "end_time")
-    var endTime: LocalDateTime? = null,
 
     @Column(name = "extra_info", columnDefinition = "TEXT") // 추가정보
     var extraInfo: String? = null,

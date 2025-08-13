@@ -14,18 +14,12 @@ class ContestService(
     private val mapper: ContestMapper
 ) {
     data class ContestRequest(
-        val title: String,
         val subtitle: String? = null,
-        val writer: String? = null,
-        val companyType: String? = null,
         val targetParticipants: String? = null,
-        val startTime: LocalDateTime? = null,
-        val endTime: LocalDateTime? = null,
         val extraInfo: String? = null,
         val description: String? = null,
         val websiteUrl: String? = null,
         val contact: String? = null,
-        val bannerUrl: String? = null
     )
 
     fun getAllContests(): List<Contest> {
@@ -46,18 +40,13 @@ class ContestService(
         // Create Contest with Content reference
         val contest = Contest(
             content = savedContent,
-            title = request.title,
             subtitle = request.subtitle,
-            writer = request.writer,
-            companyType = request.companyType,
             targetParticipants = request.targetParticipants,
-            startTime = request.startTime,
-            endTime = request.endTime,
             extraInfo = request.extraInfo,
             description = request.description,
             websiteUrl = request.websiteUrl,
             contact = request.contact,
-            bannerUrl = request.bannerUrl
+
         )
 
         return contestRepository.save(contest)

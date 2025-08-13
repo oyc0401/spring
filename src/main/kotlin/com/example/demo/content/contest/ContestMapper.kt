@@ -18,14 +18,8 @@ abstract class ContestMapper {
      */
     @AfterMapping
     protected fun after(@MappingTarget contest: Contest, dto: ContestUpdateDto) {
-        dto.bannerUrl.ifPresent { contest.bannerUrl = it }
-        dto.title.ifPresent { it?.let { v -> contest.title = v } }
         dto.subtitle.ifPresent { contest.subtitle = it }
-        dto.writer.ifPresent { contest.writer = it }
-        dto.companyType.ifPresent { contest.companyType = it }
         dto.targetParticipants.ifPresent { contest.targetParticipants = it }
-        dto.startTime.ifPresent { contest.startTime = it }
-        dto.endTime.ifPresent { contest.endTime = it }
         dto.extraInfo.ifPresent { contest.extraInfo = it }
         dto.description.ifPresent { contest.description = it }
         dto.websiteUrl.ifPresent { contest.websiteUrl = it }

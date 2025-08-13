@@ -1,6 +1,7 @@
 package com.example.demo.content
 
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import java.util.NoSuchElementException
 
 @Service
@@ -9,16 +10,28 @@ class ContentService(
     private val mapper: ContentMapper
 ) {
     data class ContentRequest(
-        val type: String = "",
+        val title: String,
+        val bannerUrl: String,
+        val writer: String,
+        val companyType: String,
+        val startTime: String,
+        val endTime: String,
+        val type: String,
         val viewCount: Int = 0,
-        val bookmarkCount: Int = 0
+        val bookmarkCount: Int = 0,
     )
 
     fun addContent(request: ContentRequest): Content {
         val content = Content(
+            title = request.title,
+            bannerUrl = request.bannerUrl,
+            writer = request.writer,
+            companyType = request.companyType,
+            startTime = request.startTime,
+            endTime = request.endTime,
             type = request.type,
             viewCount = request.viewCount,
-            bookmarkCount = request.bookmarkCount
+            bookmarkCount = request.bookmarkCount,
         )
 
         return contentRepository.save(content)

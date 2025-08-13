@@ -1,5 +1,6 @@
 package com.example.demo.content
 
+import com.example.demo.user.ifPresent
 import org.mapstruct.*
 
 @Mapper(componentModel = "spring")
@@ -16,6 +17,12 @@ abstract class ContentMapper {
      */
     @AfterMapping
     protected fun after(@MappingTarget content: Content, dto: ContentUpdateDto) {
+        dto.title.ifPresent { it?.let { v -> content.title = v } }
+        dto.bannerUrl.ifPresent { it?.let { v -> content.bannerUrl = v } }
+        dto.writer.ifPresent { it?.let { v -> content.writer = v } }
+        dto.companyType.ifPresent { it?.let { v -> content.companyType = v } }
+        dto.startTime.ifPresent { it?.let { v -> content.startTime = v } }
+        dto.endTime.ifPresent { it?.let { v -> content.endTime = v } }
         dto.viewCount.ifPresent { content.viewCount = it }
         dto.bookmarkCount.ifPresent { content.bookmarkCount = it }
     }
