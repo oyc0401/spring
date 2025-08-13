@@ -20,12 +20,12 @@ class BookmarkedContentController(
         return bookmarkedContentService.getBookmarkedContents(user.userId)
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{contentId}")
     fun getBookmarkedContent(
         @AuthenticationPrincipal user: UserPrincipal,
-        @PathVariable id: Int
+        @PathVariable contentId: Int
     ): BookmarkedContent {
-        return bookmarkedContentService.getBookmarkedContent(user.userId, id)
+        return bookmarkedContentService.getBookmarkedContent(user.userId, contentId)
     }
 
     @PostMapping("/add")
@@ -36,21 +36,21 @@ class BookmarkedContentController(
         return bookmarkedContentService.addBookmarkedContent(user.userId, request)
     }
 
-    @PostMapping("/{id}/update")
+    @PostMapping("/{contentId}/update")
     fun updateBookmarkedContent(
         @AuthenticationPrincipal user: UserPrincipal,
-        @PathVariable id: Int,
+        @PathVariable contentId: Int,
         @RequestBody dto: BookmarkedContentUpdateDto
     ): BookmarkedContent {
-        return bookmarkedContentService.updateBookmarkedContent(user.userId, id, dto)
+        return bookmarkedContentService.updateBookmarkedContent(user.userId, contentId, dto)
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{contentId}")
     fun deleteBookmarkedContent(
         @AuthenticationPrincipal user: UserPrincipal,
-        @PathVariable id: Int
+        @PathVariable contentId: Int
     ): ResponseEntity<Unit> {
-        bookmarkedContentService.deleteBookmarkedContent(user.userId, id)
+        bookmarkedContentService.deleteBookmarkedContent(user.userId, contentId)
         return ResponseEntity.ok().build()
     }
 }

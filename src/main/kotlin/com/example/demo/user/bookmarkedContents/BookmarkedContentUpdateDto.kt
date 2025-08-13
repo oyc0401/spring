@@ -3,6 +3,7 @@ package com.example.demo.user.bookmarkedContents
 import org.openapitools.jackson.nullable.JsonNullable
 
 data class BookmarkedContentUpdateDto(
-    val title: JsonNullable<String> = JsonNullable.undefined(),
-    val details: JsonNullable<String?> = JsonNullable.undefined()
+    // No updatable fields for bookmarked content
+    // Only userId and contentId are part of composite primary key
+    // createdAt is auto-generated and not updatable
 )

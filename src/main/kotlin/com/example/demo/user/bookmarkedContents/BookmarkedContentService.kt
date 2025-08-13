@@ -9,15 +9,12 @@ class BookmarkedContentService(
     private val mapper: BookmarkedContentMapper
 ) {
     data class BookmarkedContentRequest(
-        val title: String,
-        val details: String,
+        val contentId: Int
     )
 
     fun addBookmarkedContent(userId: Int, request: BookmarkedContentRequest): BookmarkedContent {
         val bookmarkedContent = BookmarkedContent(
-            userId = userId,
-            title = request.title,
-            details = request.details
+            id = BookmarkedContentId(userId = userId, contentId = request.contentId)
         )
 
         return bookmarkedContentRepository.save(bookmarkedContent)
@@ -27,37 +24,23 @@ class BookmarkedContentService(
         return bookmarkedContentRepository.findByUserId(userId)
     }
 
-    fun getBookmarkedContent(userId: Int, bookmarkedContentId: Int): BookmarkedContent {
-        val bookmarkedContent = bookmarkedContentRepository.findById(bookmarkedContentId)
-            .orElseThrow { NoSuchElementException("BookmarkedContent not found") }
-
-        if (bookmarkedContent.userId != userId) {
-            throw IllegalArgumentException("Access denied: BookmarkedContent does not belong to user")
-        }
-
-        return bookmarkedContent
+    fun getBookmarkedContent(userId: Int, contentId: Int): BookmarkedContent {
+        return bookmarkedContentRepository.findByUserIdAndContentId(userId, contentId)
+            ?: throw NoSuchElementException("BookmarkedContent not found")
     }
 
-    fun updateBookmarkedContent(userId: Int, bookmarkedContentId: Int, dto: BookmarkedContentUpdateDto): BookmarkedContent {
-        val bookmarkedContent = bookmarkedContentRepository.findById(bookmarkedContentId)
-            .orElseThrow { NoSuchElementException("BookmarkedContent not found") }
-
-        if (bookmarkedContent.userId != userId) {
-            throw IllegalArgumentException("Access denied: BookmarkedContent does not belong to user")
-        }
+    fun updateBookmarkedContent(userId: Int, contentId: Int, dto: BookmarkedContentUpdateDto): BookmarkedContent {
+        val bookmarkedContent = bookmarkedContentRepository.findByUserIdAndContentId(userId, contentId)
+            ?: throw NoSuchElementException("BookmarkedContent not found")
 
         mapper.partialUpdate(bookmarkedContent, dto)
         return bookmarkedContent // JPA dirty checking으로 자동 저장
     }
 
-    fun deleteBookmarkedContent(userId: Int, bookmarkedContentId: Int) {
-        val bookmarkedContent = bookmarkedContentRepository.findById(bookmarkedContentId)
-            .orElseThrow { NoSuchElementException("BookmarkedContent not found") }
+    fun deleteBookmarkedContent(userId: Int, contentId: Int) {
+        val bookmarkedContent = bookmarkedContentRepository.findByUserIdAndContentId(userId, contentId)
+            ?: throw NoSuchElementException("BookmarkedContent not found")
 
-        if (bookmarkedContent.userId != userId) {
-            throw IllegalArgumentException("Access denied: BookmarkedContent does not belong to user")
-        }
-
-        bookmarkedContentRepository.delete(bookmarkedContent)
+        bookmarkedContentRepository.deleteByUserIdAndContentId(userId, contentId)
     }
 }
