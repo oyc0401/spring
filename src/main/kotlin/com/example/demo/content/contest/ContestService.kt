@@ -45,7 +45,6 @@ class ContestService(
 
         // Create Contest with Content reference
         val contest = Contest(
-            contentId = savedContent.id,
             content = savedContent,
             title = request.title,
             subtitle = request.subtitle,

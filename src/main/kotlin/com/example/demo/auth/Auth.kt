@@ -7,7 +7,7 @@ import jakarta.persistence.*
 @Table(name = "auth")
 data class Auth(
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", insertable = false, updatable = false)
     val userId: Int = 0,
 
     // user <- auth

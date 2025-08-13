@@ -16,7 +16,7 @@ data class Contest(
 
     // contests.content_id = contents.id (PK = FK, 공유 PK)
     @Id
-    @Column(name = "content_id")
+    @Column(name = "content_id", insertable = false, updatable = false)
     val contentId: Int = 0,
 
     // Content 삭제 시 DB에서 Contest 자동 삭제 (ON DELETE CASCADE)
