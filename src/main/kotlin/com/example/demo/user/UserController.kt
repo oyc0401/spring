@@ -47,6 +47,11 @@ class UserController(private val userService: UserService) {
         userService.delete(user.userId)
     }
 
+    @PostMapping("/soft-delete")
+    fun softDelete(@AuthenticationPrincipal user: UserPrincipal): ResponseEntity<Unit> {
+        userService.softDelete(user.userId)
+        return ResponseEntity.ok().build()
+    }
 }
 
 data class UserResponse(
