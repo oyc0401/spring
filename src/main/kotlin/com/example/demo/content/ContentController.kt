@@ -1,9 +1,11 @@
 package com.example.demo.content
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@Tag(name = "content-controller", description = "콘텐츠 API")
 @RequestMapping("/content")
 class ContentController(
     private val contentService: ContentService

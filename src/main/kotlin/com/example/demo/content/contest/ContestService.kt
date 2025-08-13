@@ -37,30 +37,6 @@ class ContestService(
             .orElseThrow { NoSuchElementException("Contest not found") }
     }
 
-//    fun getActiveContests(): List<Contest> {
-//        return contestRepository.findActiveContests(LocalDateTime.now())
-//    }
-//
-//    fun getUpcomingContests(): List<Contest> {
-//        return contestRepository.findUpcomingContests(LocalDateTime.now())
-//    }
-//
-//    fun getEndedContests(): List<Contest> {
-//        return contestRepository.findEndedContests(LocalDateTime.now())
-//    }
-//
-//    fun searchContests(keyword: String): List<Contest> {
-//        return contestRepository.searchContests(keyword)
-//    }
-//
-//    fun getContestsByWriter(writer: String): List<Contest> {
-//        return contestRepository.findByWriter(writer)
-//    }
-//
-//    fun getContestsByCompanyType(companyType: String): List<Contest> {
-//        return contestRepository.findByCompanyType(companyType)
-//    }
-
     @Transactional
     fun createContest(request: ContestRequest): Contest {
         // Create Content first
@@ -95,14 +71,5 @@ class ContestService(
 
         mapper.partialUpdate(contest, dto)
         return contest // JPA dirty checking으로 자동 저장
-    }
-
-    @Transactional
-    fun deleteContest(contestId: Int) {
-        val contest = contestRepository.findById(contestId)
-            .orElseThrow { NoSuchElementException("Contest not found") }
-
-        // Delete Contest (this will cascade to Content due to @OnDelete(action = OnDeleteAction.CASCADE))
-        contestRepository.delete(contest)
     }
 }
