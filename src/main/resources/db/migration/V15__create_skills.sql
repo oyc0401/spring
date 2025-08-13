@@ -1,0 +1,12 @@
+CREATE TABLE skills
+(
+    id         INT AUTO_INCREMENT NOT NULL,
+    user_id    INT                NOT NULL,
+    title      VARCHAR(120)       NOT NULL,
+    details    LONGTEXT           NULL,
+    priority   INT DEFAULT 0      NOT NULL,
+    created_at datetime           NULL,
+    CONSTRAINT pk_skills PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_skill_user ON skills (user_id);
