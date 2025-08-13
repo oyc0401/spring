@@ -33,9 +33,9 @@ quit;
 docker run --rm \
 -v $(pwd)/src/main/resources/db/migration:/flyway/sql \
 flyway/flyway \
--url="jdbc:mysql://injob-db.c3qasa8yqxzu.ap-northeast-2.rds.amazonaws.com:3306/service?useSSL=true&requireSSL=true" \
+-url="jdbc:mysql://injob-db.c3qasa8yqxzu.ap-northeast-2.rds.amazonaws.com:3306/service" \
 -user=admin \
--password=<pw> \
+-password=injob46816 \
 repair
 
 

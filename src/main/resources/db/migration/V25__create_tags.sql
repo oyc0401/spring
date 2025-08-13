@@ -1,6 +1,6 @@
 CREATE TABLE tags
 (
-    id       BIGINT AUTO_INCREMENT NOT NULL,
+    id       INT AUTO_INCREMENT NOT NULL,
     tag_name VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_tags PRIMARY KEY (id)
 );

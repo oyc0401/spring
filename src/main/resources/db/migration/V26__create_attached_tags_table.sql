@@ -1,8 +1,8 @@
 CREATE TABLE attached_tags
 (
     name       VARCHAR(255) NOT NULL,
-    content_id BIGINT       NOT NULL,
-    tag_id     BIGINT       NOT NULL,
+    content_id INT       NOT NULL,
+    tag_id     INT       NOT NULL,
     CONSTRAINT pk_attached_tags PRIMARY KEY (content_id, tag_id)
 );
 
