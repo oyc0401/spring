@@ -2,12 +2,14 @@ package com.example.demo.user.bookmarkedContents
 
 import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
+@Tag(name = "user.bookmarked-contents-controller", description = "스크랩한 콘텐츠 API")
 @RequestMapping("/users/bookmarked-contents")
 class BookmarkedContentController(
     private val bookmarkedContentService: BookmarkedContentService
@@ -20,29 +22,12 @@ class BookmarkedContentController(
         return bookmarkedContentService.getBookmarkedContents(user.userId)
     }
 
-    @GetMapping("/{contentId}")
-    fun getBookmarkedContent(
-        @AuthenticationPrincipal user: UserPrincipal,
-        @PathVariable contentId: Int
-    ): BookmarkedContent {
-        return bookmarkedContentService.getBookmarkedContent(user.userId, contentId)
-    }
-
     @PostMapping("/add")
     fun addBookmarkedContent(
         @AuthenticationPrincipal user: UserPrincipal,
         @RequestBody request: BookmarkedContentService.BookmarkedContentRequest
     ): BookmarkedContent {
         return bookmarkedContentService.addBookmarkedContent(user.userId, request)
-    }
-
-    @PostMapping("/{contentId}/update")
-    fun updateBookmarkedContent(
-        @AuthenticationPrincipal user: UserPrincipal,
-        @PathVariable contentId: Int,
-        @RequestBody dto: BookmarkedContentUpdateDto
-    ): BookmarkedContent {
-        return bookmarkedContentService.updateBookmarkedContent(user.userId, contentId, dto)
     }
 
     @DeleteMapping("/{contentId}")

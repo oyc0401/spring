@@ -5,8 +5,7 @@ import java.util.NoSuchElementException
 
 @Service
 class BookmarkedContentService(
-    private val bookmarkedContentRepository: BookmarkedContentRepository,
-    private val mapper: BookmarkedContentMapper
+    private val bookmarkedContentRepository: BookmarkedContentRepository
 ) {
     data class BookmarkedContentRequest(
         val contentId: Int
@@ -21,26 +20,15 @@ class BookmarkedContentService(
     }
 
     fun getBookmarkedContents(userId: Int): List<BookmarkedContent> {
-        return bookmarkedContentRepository.findByUserId(userId)
+        return bookmarkedContentRepository.findAllByIdUserId(userId)
     }
 
-    fun getBookmarkedContent(userId: Int, contentId: Int): BookmarkedContent {
-        return bookmarkedContentRepository.findByUserIdAndContentId(userId, contentId)
-            ?: throw NoSuchElementException("BookmarkedContent not found")
-    }
-
-    fun updateBookmarkedContent(userId: Int, contentId: Int, dto: BookmarkedContentUpdateDto): BookmarkedContent {
-        val bookmarkedContent = bookmarkedContentRepository.findByUserIdAndContentId(userId, contentId)
-            ?: throw NoSuchElementException("BookmarkedContent not found")
-
-        mapper.partialUpdate(bookmarkedContent, dto)
-        return bookmarkedContent // JPA dirty checking으로 자동 저장
-    }
 
     fun deleteBookmarkedContent(userId: Int, contentId: Int) {
-        val bookmarkedContent = bookmarkedContentRepository.findByUserIdAndContentId(userId, contentId)
-            ?: throw NoSuchElementException("BookmarkedContent not found")
+        val bookmarkedContent =
+            bookmarkedContentRepository.findById(BookmarkedContentId(userId = userId, contentId = contentId))
+                .orElseThrow { NoSuchElementException("BookmarkedContent not found") }
 
-        bookmarkedContentRepository.deleteByUserIdAndContentId(userId, contentId)
+        bookmarkedContentRepository.deleteById(BookmarkedContentId(userId = userId, contentId = contentId))
     }
 }

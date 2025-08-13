@@ -1,5 +1,6 @@
 package com.example.demo.user.recommend
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.NoSuchElementException
 
@@ -23,26 +24,26 @@ class RecommendService(
     }
 
     fun getRecommends(userId: Int): List<Recommend> {
-        return recommendRepository.findByUserId(userId)
+        return recommendRepository.findAllByIdUserId(userId)
     }
 
     fun getRecommend(userId: Int, contentId: Int): Recommend {
-        return recommendRepository.findByUserIdAndContentId(userId, contentId)
-            ?: throw NoSuchElementException("Recommend not found")
+        return recommendRepository.findById(RecommendId(userId = userId, contentId = contentId))
+            .orElseThrow { NoSuchElementException("Recommend not found") }
     }
 
     fun updateRecommend(userId: Int, contentId: Int, dto: RecommendUpdateDto): Recommend {
-        val recommend = recommendRepository.findByUserIdAndContentId(userId, contentId)
-            ?: throw NoSuchElementException("Recommend not found")
+        val recommend = recommendRepository.findById(RecommendId(userId = userId, contentId = contentId))
+            .orElseThrow { NoSuchElementException("Recommend not found") }
 
         mapper.partialUpdate(recommend, dto)
         return recommend // JPA dirty checking으로 자동 저장
     }
 
     fun deleteRecommend(userId: Int, contentId: Int) {
-        val recommend = recommendRepository.findByUserIdAndContentId(userId, contentId)
-            ?: throw NoSuchElementException("Recommend not found")
+        val recommend = recommendRepository.findById(RecommendId(userId = userId, contentId = contentId))
+            .orElseThrow { NoSuchElementException("Recommend not found") }
 
-        recommendRepository.deleteByUserIdAndContentId(userId, contentId)
+        recommendRepository.deleteById(RecommendId(userId = userId, contentId = contentId))
     }
 }

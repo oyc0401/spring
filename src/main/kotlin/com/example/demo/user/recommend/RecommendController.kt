@@ -2,12 +2,14 @@ package com.example.demo.user.recommend
 
 import com.example.demo.security.UserPrincipal
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
+@Tag(name = "user.recommends-controller", description = "추천받은 콘텐츠 API")
 @RequestMapping("/users/recommends")
 class RecommendController(
     private val recommendService: RecommendService
