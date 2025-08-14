@@ -39,7 +39,14 @@ flyway/flyway \
 repair
 
 
-
-
-
-# 권한 추가하기
+# html 만들기
+java -jar schemaspy-6.2.4.jar \
+-t mysql \
+-host 127.0.0.1 \
+-port 3306 \
+-db testdb \
+-s testdb \
+-u root \
+-p chan0401 \
+-o ./output \
+-dp ./mysql-connector-j-9.4.0.jar
