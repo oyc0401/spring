@@ -9,15 +9,13 @@ class RecentSearchService(
     private val mapper: RecentSearchMapper
 ) {
     data class RecentSearchRequest(
-        val title: String,
-        val details: String,
+        val text: String,
     )
 
     fun addRecentSearch(userId: Int, request: RecentSearchRequest): RecentSearch {
         val recentSearch = RecentSearch(
             userId = userId,
-            title = request.title,
-            details = request.details
+            text = request.text,
         )
 
         return recentSearchRepository.save(recentSearch)

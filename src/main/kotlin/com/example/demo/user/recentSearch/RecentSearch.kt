@@ -21,12 +21,8 @@ data class RecentSearch(
     @Column(name = "user_id", nullable = false)
     var userId: Int = 0, // 조인 안 함. FK는 DB에서만 관리
 
-    @Column(nullable = false, length = 120)
-    var title: String = "",
-
-    @Lob
-    @Column(name = "details")
-    var details: String? = null,
+    @Column(nullable = false)
+    var text: String = "",
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)

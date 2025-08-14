@@ -18,7 +18,6 @@ abstract class RecentSearchMapper {
      */
     @AfterMapping
     protected fun after(@MappingTarget recentSearch: RecentSearch, dto: RecentSearchUpdateDto) {
-        dto.title.ifPresent { it?.let { v -> recentSearch.title = v } }
-        dto.details.ifPresent { recentSearch.details = it }
+        dto.text.ifPresent { it?.let { v -> recentSearch.text = v } }
     }
 }
