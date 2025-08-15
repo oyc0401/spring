@@ -9,7 +9,9 @@ import java.time.LocalDateTime
 
 @Entity
 @EntityListeners(AuditingEntityListener::class)
-@Table(name = "banners")
+@Table(name = "banners", indexes = [
+    Index(name = "idx_banner_priority", columnList = "priority")
+])
 data class Banner(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -57,4 +57,11 @@ class BannerController(
         bannerService.deleteBanner(id)
         return ResponseEntity.ok().build()
     }
+
+    @Operation(summary = "배너 순서 교체", description = "두 배너의 priority를 서로 교체합니다")
+    @PostMapping("/swap-priority")
+    fun swapBannerPriority(@RequestBody request: BannerService.SwapPriorityRequest): ResponseEntity<Unit> {
+        bannerService.swapBannerPriority(request.bannerId1, request.bannerId2)
+        return ResponseEntity.ok().build()
+    }
 }

@@ -13,4 +13,7 @@ interface BannerRepository : JpaRepository<Banner, Int> {
     fun findActiveAndCurrentByPriorityDesc(currentDate: LocalDate = LocalDate.now()): List<Banner>
     
     fun findByIsActiveTrueOrderByPriorityDescIdDesc(): List<Banner>
+    
+    @Query("SELECT COALESCE(MAX(b.priority), 0) FROM Banner b")
+    fun findMaxPriority(): Int
 }
