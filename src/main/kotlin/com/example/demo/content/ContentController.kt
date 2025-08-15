@@ -51,10 +51,17 @@ class ContentController(
         return contentService.updateContent(id, dto)
     }
 
-    @Operation(summary = "콘텐츠 삭제", description = "특정 콘텐츠를 삭제합니다")
+    @Operation(summary = "콘텐츠 완전 삭제", description = "특정 콘텐츠를 데이터베이스에서 완전히 삭제합니다")
     @DeleteMapping("/{id}")
     fun deleteContent(@PathVariable id: Int): ResponseEntity<Unit> {
         contentService.deleteContent(id)
+        return ResponseEntity.ok().build()
+    }
+
+    @Operation(summary = "콘텐츠 비활성화", description = "특정 콘텐츠를 비활성화하여 숨김 처리합니다")
+    @PostMapping("/{id}/soft-delete")
+    fun softDeleteContent(@PathVariable id: Int): ResponseEntity<Unit> {
+        contentService.softDeleteContent(id)
         return ResponseEntity.ok().build()
     }
 }

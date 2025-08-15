@@ -67,6 +67,14 @@ class ContentService(
         val content = contentRepository.findActiveById(contentId)
             ?: throw NoSuchElementException("Content not found")
 
+        // 하드 삭제 - 데이터베이스에서 완전히 제거
+        contentRepository.delete(content)
+    }
+
+    fun softDeleteContent(contentId: Int) {
+        val content = contentRepository.findActiveById(contentId)
+            ?: throw NoSuchElementException("Content not found")
+
         content.isDeleted = true
         content.updatedAt = LocalDateTime.now()
         // 소프트 삭제 - JPA dirty checking으로 자동 저장
