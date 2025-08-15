@@ -61,4 +61,14 @@ class ActivityController(
         activityService.deleteActivity(user.userId, id)
         return ResponseEntity.ok().build()
     }
+
+    @Operation(summary = "대외활동 순서 교체", description = "두 대외활동의 priority를 서로 교체합니다")
+    @PostMapping("/swap-priority")
+    fun swapActivityPriority(
+        @AuthenticationPrincipal user: UserPrincipal,
+        @RequestBody request: ActivityService.SwapPriorityRequest
+    ): ResponseEntity<Unit> {
+        activityService.swapActivityPriority(user.userId, request.activityId1, request.activityId2)
+        return ResponseEntity.ok().build()
+    }
 }

@@ -11,6 +11,7 @@ import java.time.LocalDateTime
     name = "experiences",
     indexes = [
         Index(name = "idx_experience_user", columnList = "user_id"),
+        Index(name = "idx_experience_priority", columnList = "priority")
     ]
 )
 data class Experience(

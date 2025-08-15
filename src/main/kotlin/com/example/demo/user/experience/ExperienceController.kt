@@ -61,4 +61,14 @@ class ExperienceController(
         experienceService.deleteExperience(user.userId, id)
         return ResponseEntity.ok().build()
     }
+
+    @Operation(summary = "경력 순서 교체", description = "두 경력의 priority를 서로 교체합니다")
+    @PostMapping("/swap-priority")
+    fun swapExperiencePriority(
+        @AuthenticationPrincipal user: UserPrincipal,
+        @RequestBody request: ExperienceService.SwapPriorityRequest
+    ): ResponseEntity<Unit> {
+        experienceService.swapExperiencePriority(user.userId, request.experienceId1, request.experienceId2)
+        return ResponseEntity.ok().build()
+    }
 }

@@ -11,6 +11,7 @@ import java.time.LocalDateTime
     name = "participated_contests",
     indexes = [
         Index(name = "idx_participated_contest_user", columnList = "user_id"),
+        Index(name = "idx_participated_contest_priority", columnList = "priority")
     ]
 )
 data class ParticipatedContest(

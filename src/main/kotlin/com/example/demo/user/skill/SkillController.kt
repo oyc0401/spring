@@ -61,4 +61,14 @@ class SkillController(
         skillService.deleteSkill(user.userId, id)
         return ResponseEntity.ok().build()
     }
+
+    @Operation(summary = "기술 순서 교체", description = "두 기술의 priority를 서로 교체합니다")
+    @PostMapping("/swap-priority")
+    fun swapSkillPriority(
+        @AuthenticationPrincipal user: UserPrincipal,
+        @RequestBody request: SkillService.SwapPriorityRequest
+    ): ResponseEntity<Unit> {
+        skillService.swapSkillPriority(user.userId, request.skillId1, request.skillId2)
+        return ResponseEntity.ok().build()
+    }
 }

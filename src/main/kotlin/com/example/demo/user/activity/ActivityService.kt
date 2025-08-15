@@ -1,6 +1,7 @@
 package com.example.demo.user.activity
 
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.NoSuchElementException
 
 @Service
@@ -13,18 +14,25 @@ class ActivityService(
         val details: String,
     )
 
+    data class SwapPriorityRequest(
+        val activityId1: Int,
+        val activityId2: Int
+    )
+
     fun addActivity(userId: Int, request: ActivityRequest): Activity {
+        val maxPriority = activityRepository.findMaxPriorityByUserId(userId)
         val activity = Activity(
             userId = userId,
             title = request.title,
-            details = request.details
+            details = request.details,
+            priority = maxPriority + 1
         )
 
         return activityRepository.save(activity)
     }
 
     fun getActivities(userId: Int): List<Activity> {
-        return activityRepository.findByUserId(userId)
+        return activityRepository.findByUserIdOrderByPriorityDescIdDesc(userId)
     }
 
     fun getActivity(userId: Int, activityId: Int): Activity {
@@ -59,5 +67,21 @@ class ActivityService(
         }
 
         activityRepository.delete(activity)
+    }
+
+    @Transactional
+    fun swapActivityPriority(userId: Int, activityId1: Int, activityId2: Int) {
+        val activity1 = activityRepository.findById(activityId1)
+            .orElseThrow { NoSuchElementException("Activity with id $activityId1 not found") }
+        val activity2 = activityRepository.findById(activityId2)
+            .orElseThrow { NoSuchElementException("Activity with id $activityId2 not found") }
+
+        if (activity1.userId != userId || activity2.userId != userId) {
+            throw IllegalArgumentException("Access denied: Activities do not belong to user")
+        }
+
+        val tempPriority = activity1.priority
+        activity1.priority = activity2.priority
+        activity2.priority = tempPriority
     }
 }

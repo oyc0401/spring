@@ -61,4 +61,14 @@ class ParticipatedContestController(
         participatedContestService.deleteParticipatedContest(user.userId, id)
         return ResponseEntity.ok().build()
     }
+
+    @Operation(summary = "참여 공모전 순서 교체", description = "두 참여 공모전의 priority를 서로 교체합니다")
+    @PostMapping("/swap-priority")
+    fun swapParticipatedContestPriority(
+        @AuthenticationPrincipal user: UserPrincipal,
+        @RequestBody request: ParticipatedContestService.SwapPriorityRequest
+    ): ResponseEntity<Unit> {
+        participatedContestService.swapParticipatedContestPriority(user.userId, request.participatedContestId1, request.participatedContestId2)
+        return ResponseEntity.ok().build()
+    }
 }
