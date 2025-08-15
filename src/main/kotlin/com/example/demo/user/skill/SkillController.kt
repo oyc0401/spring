@@ -43,7 +43,7 @@ class SkillController(
     }
 
     @Operation(summary = "기술 수정", description = "기존 보유 기술 정보를 수정합니다")
-    @PostMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun updateSkill(
         @AuthenticationPrincipal user: UserPrincipal,
         @PathVariable id: Int,

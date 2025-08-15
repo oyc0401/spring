@@ -43,7 +43,7 @@ class ContentController(
     }
 
     @Operation(summary = "콘텐츠 수정", description = "기존 콘텐츠 정보를 수정합니다")
-    @PostMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun updateContent(
         @PathVariable id: Int,
         @RequestBody dto: ContentUpdateDto

@@ -35,7 +35,7 @@ class UserController(private val userService: UserService) {
 //    }
 
     @Operation(summary = "내 정보 수정", description = "현재 로그인된 사용자의 정보를 수정합니다")
-    @PostMapping("/update")
+    @PatchMapping("/update")
     fun updateMe(
         @AuthenticationPrincipal user: UserPrincipal,
         @RequestBody dto: UserUpdateDto

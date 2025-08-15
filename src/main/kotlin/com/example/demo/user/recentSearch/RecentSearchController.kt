@@ -43,7 +43,7 @@ class RecentSearchController(
     }
 
     @Operation(summary = "최근 검색어 수정", description = "기존 최근 검색어 정보를 수정합니다")
-    @PostMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun updateRecentSearch(
         @AuthenticationPrincipal user: UserPrincipal,
         @PathVariable id: Int,

@@ -43,7 +43,7 @@ class ExperienceController(
     }
 
     @Operation(summary = "경력 수정", description = "기존 보유 경력 정보를 수정합니다")
-    @PostMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun updateExperience(
         @AuthenticationPrincipal user: UserPrincipal,
         @PathVariable id: Int,

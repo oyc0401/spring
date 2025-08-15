@@ -37,7 +37,7 @@ class TagController(
     }
 
     @Operation(summary = "태그 수정", description = "기존 태그 정보를 수정합니다")
-    @PostMapping("/{tagId}/update")
+    @PatchMapping("/{tagId}")
     fun updateTag(
         @PathVariable tagId: Int,
         @RequestBody dto: TagUpdateDto

@@ -43,7 +43,7 @@ class AttachedTagController(
     }
 
     @Operation(summary = "콘텐츠 태그 수정", description = "콘텐츠에 연결된 태그 정보를 수정합니다")
-    @PostMapping("/{tagId}/update")
+    @PatchMapping("/{tagId}")
     fun updateAttachedTag(
         @PathVariable contentId: Int,
         @PathVariable tagId: Int,

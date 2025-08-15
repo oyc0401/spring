@@ -43,7 +43,7 @@ class ActivityController(
     }
 
     @Operation(summary = "대외활동 수정", description = "기존 보유 대외활동 정보를 수정합니다")
-    @PostMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun updateActivity(
         @AuthenticationPrincipal user: UserPrincipal,
         @PathVariable id: Int,

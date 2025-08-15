@@ -43,7 +43,7 @@ class RecommendController(
     }
 
     @Operation(summary = "추천 콘텐츠 수정", description = "기존 추천 콘텐츠 정보를 수정합니다")
-    @PostMapping("/{contentId}/update")
+    @PatchMapping("/{contentId}")
     fun updateRecommend(
         @AuthenticationPrincipal user: UserPrincipal,
         @PathVariable contentId: Int,

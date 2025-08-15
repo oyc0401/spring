@@ -43,7 +43,7 @@ class ParticipatedContestController(
     }
 
     @Operation(summary = "참여 공모전 수정", description = "기존 참여 공모전 정보를 수정합니다")
-    @PostMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun updateParticipatedContest(
         @AuthenticationPrincipal user: UserPrincipal,
         @PathVariable id: Int,

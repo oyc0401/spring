@@ -30,8 +30,8 @@ class ContestController(
         return contestService.createContest(request)
     }
 
-    @PostMapping("/{id}/update")
     @Operation(summary = "공모전 수정", description = "공모전 메타데이터를 부분 업데이트합니다.")
+    @PatchMapping("/{id}")
     fun updateContest(
         @PathVariable id: Int,
         @RequestBody dto: ContestUpdateDto

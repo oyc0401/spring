@@ -43,7 +43,7 @@ class BannerController(
     }
 
     @Operation(summary = "배너 수정", description = "기존 배너 정보를 수정합니다")
-    @PostMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun updateBanner(
         @PathVariable id: Int,
         @RequestBody dto: BannerUpdateDto
