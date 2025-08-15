@@ -30,6 +30,7 @@ quit;
 -Dflyway.locations=filesystem:src/main/resources/db/migration
 
 # Ec2에서 flyway 플래그 지우기
+cd /home/ubuntu/spring && \
 docker run --rm \
 -v $(pwd)/src/main/resources/db/migration:/flyway/sql \
 flyway/flyway \
@@ -37,7 +38,6 @@ flyway/flyway \
 -user=admin \
 -password=<pw> \
 repair
-
 
 # html 만들기
 java -jar schemaspy-6.2.4.jar \
