@@ -25,7 +25,7 @@ data class Contest(
     @JoinColumn(name = "content_id", referencedColumnName = "id", nullable = false)
     @MapsId
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var content: Content? = null,
+    var content: Content,
 
     @Column(name = "subtitle", length = 200)
     var subtitle: String? = null,

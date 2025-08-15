@@ -38,26 +38,37 @@ class ContentService(
     }
 
     fun getContents(): List<Content> {
-        return contentRepository.findAll()
+        return contentRepository.findByIsDeletedFalseAndIsActiveTrueOrderByCreatedAtDesc()
+    }
+
+    fun getFeaturedContents(): List<Content> {
+        return contentRepository.findByIsDeletedFalseAndIsActiveTrueAndIsFeaturedTrueOrderByCreatedAtDesc()
+    }
+
+    fun getContentsByType(type: String): List<Content> {
+        return contentRepository.findByIsDeletedFalseAndIsActiveTrueAndTypeOrderByCreatedAtDesc(type)
     }
 
     fun getContent(contentId: Int): Content {
-        return contentRepository.findById(contentId)
-            .orElseThrow { NoSuchElementException("Content not found") }
+        return contentRepository.findActiveById(contentId)
+            ?: throw NoSuchElementException("Content not found")
     }
 
     fun updateContent(contentId: Int, dto: ContentUpdateDto): Content {
-        val content = contentRepository.findById(contentId)
-            .orElseThrow { NoSuchElementException("Content not found") }
+        val content = contentRepository.findActiveById(contentId)
+            ?: throw NoSuchElementException("Content not found")
 
+        content.updatedAt = LocalDateTime.now()
         mapper.partialUpdate(content, dto)
         return content // JPA dirty checking으로 자동 저장
     }
 
     fun deleteContent(contentId: Int) {
-        val content = contentRepository.findById(contentId)
-            .orElseThrow { NoSuchElementException("Content not found") }
+        val content = contentRepository.findActiveById(contentId)
+            ?: throw NoSuchElementException("Content not found")
 
-        contentRepository.delete(content)
+        content.isDeleted = true
+        content.updatedAt = LocalDateTime.now()
+        // 소프트 삭제 - JPA dirty checking으로 자동 저장
     }
 }

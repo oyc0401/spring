@@ -57,7 +57,12 @@ class ContestService(
         val contest = contestRepository.findById(contestId)
             .orElseThrow { NoSuchElementException("Contest not found") }
 
+        // Contest 업데이트
         mapper.partialUpdate(contest, dto)
+        
+        // Content의 updatedAt 업데이트
+        contest.content.updatedAt = LocalDateTime.now()
+        
         return contest // JPA dirty checking으로 자동 저장
     }
 }

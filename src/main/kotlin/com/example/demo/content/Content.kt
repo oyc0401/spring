@@ -22,6 +22,9 @@ data class Content(
     @Column(name = "banner_url", nullable = false, length = 500)
     var bannerUrl: String = "",
 
+    @Column(name = "thumbnail_url", nullable = true, length = 500)
+    var thumbnailUrl: String? = null,
+
     @Column(name = "writer", nullable = false, length = 100)
     var writer: String = "",
 
@@ -40,7 +43,19 @@ data class Content(
     @Column(name = "bookmark_count", nullable = false, columnDefinition = "INT DEFAULT 0")
     var bookmarkCount: Int = 0,
 
+    @Column(name = "is_featured", nullable = false)
+    var isFeatured: Boolean = false,
+
+    @Column(name = "is_active", nullable = false)
+    var isActive: Boolean = true,
+
+    @Column(name = "is_deleted", nullable = false)
+    var isDeleted: Boolean = false,
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
-    var createdAt: LocalDateTime? = null
+    var createdAt: LocalDateTime? = null,
+
+    @Column(name = "updated_at")
+    var updatedAt: LocalDateTime? = null
 )
