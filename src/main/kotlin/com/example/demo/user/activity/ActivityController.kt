@@ -1,6 +1,7 @@
 package com.example.demo.user.activity
 
 import com.example.demo.security.UserPrincipal
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -15,6 +16,7 @@ class ActivityController(
     private val activityService: ActivityService
 ) {
 
+    @Operation(summary = "내 대외활동 목록 조회", description = "현재 사용자의 보유 대외활동 목록을 조회합니다")
     @GetMapping("/")
     fun getActivities(
         @AuthenticationPrincipal user: UserPrincipal
@@ -22,6 +24,7 @@ class ActivityController(
         return activityService.getActivities(user.userId)
     }
 
+    @Operation(summary = "대외활동 상세 조회", description = "특정 대외활동의 상세 정보를 조회합니다")
     @GetMapping("/{id}")
     fun getActivity(
         @AuthenticationPrincipal user: UserPrincipal,
@@ -30,6 +33,7 @@ class ActivityController(
         return activityService.getActivity(user.userId, id)
     }
 
+    @Operation(summary = "대외활동 추가", description = "새로운 보유 대외활동을 추가합니다")
     @PostMapping("/add")
     fun addActivity(
         @AuthenticationPrincipal user: UserPrincipal,
@@ -38,6 +42,7 @@ class ActivityController(
         return activityService.addActivity(user.userId, request)
     }
 
+    @Operation(summary = "대외활동 수정", description = "기존 보유 대외활동 정보를 수정합니다")
     @PostMapping("/{id}/update")
     fun updateActivity(
         @AuthenticationPrincipal user: UserPrincipal,
@@ -47,6 +52,7 @@ class ActivityController(
         return activityService.updateActivity(user.userId, id, dto)
     }
 
+    @Operation(summary = "대외활동 삭제", description = "보유 대외활동을 삭제합니다")
     @DeleteMapping("/{id}")
     fun deleteActivity(
         @AuthenticationPrincipal user: UserPrincipal,

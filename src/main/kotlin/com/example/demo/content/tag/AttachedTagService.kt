@@ -1,6 +1,6 @@
 package com.example.demo.content.tag
 
-import com.example.demo.content.tagType.Tag
+import com.example.demo.content.tagType.TagType
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -43,7 +43,7 @@ class AttachedTagService(
 
     data class AttachedTagRequest(
         val tagId: Int,
-        val tag: Tag,
+        val tag: TagType,
         val name: String
     )
 }

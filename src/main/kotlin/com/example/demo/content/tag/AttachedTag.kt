@@ -1,6 +1,6 @@
 package com.example.demo.content.tag
 
-import com.example.demo.content.tagType.Tag
+import com.example.demo.content.tagType.TagType
 import jakarta.persistence.*
 
 @Entity
@@ -15,7 +15,7 @@ class AttachedTag(
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @MapsId("tagId") // ← id.tagId와 이 연관관계를 같은 컬럼으로 매핑
     @JoinColumn(name = "tag_id", nullable = false)
-    val tag: Tag,
+    val tag: TagType,
 
     @Column(nullable = false)
     var name: String = ""

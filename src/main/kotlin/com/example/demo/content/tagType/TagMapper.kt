@@ -6,10 +6,10 @@ import org.mapstruct.*
 abstract class TagMapper {
 
     @BeanMapping(ignoreByDefault = true)
-    abstract fun partialUpdate(@MappingTarget tag: Tag, dto: TagUpdateDto)
+    abstract fun partialUpdate(@MappingTarget tag: TagType, dto: TagUpdateDto)
 
     @AfterMapping
-    protected fun after(@MappingTarget tag: Tag, dto: TagUpdateDto) {
+    protected fun after(@MappingTarget tag: TagType, dto: TagUpdateDto) {
         dto.tagName.ifPresent { it?.let { v -> tag.tagName = v } }
     }
 }

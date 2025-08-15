@@ -12,21 +12,21 @@ class TagService(
         val tagName: String
     )
 
-    fun addTag(request: TagRequest): Tag {
-        val tag = Tag(tagName = request.tagName)
+    fun addTag(request: TagRequest): TagType {
+        val tag = TagType(tagName = request.tagName)
         return tagRepository.save(tag)
     }
 
-    fun getTags(): List<Tag> {
+    fun getTags(): List<TagType> {
         return tagRepository.findAll()
     }
 
-    fun getTag(tagId: Int): Tag {
+    fun getTag(tagId: Int): TagType {
         return tagRepository.findById(tagId)
             .orElseThrow { NoSuchElementException("Tag not found") }
     }
 
-    fun updateTag(tagId: Int, dto: TagUpdateDto): Tag {
+    fun updateTag(tagId: Int, dto: TagUpdateDto): TagType {
         val tag = tagRepository.findById(tagId)
             .orElseThrow { NoSuchElementException("Tag not found") }
 
