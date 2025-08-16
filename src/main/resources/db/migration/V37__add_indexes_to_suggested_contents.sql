@@ -1,0 +1,2 @@
+CREATE INDEX idx_suggested_contents_user_id ON suggested_contents(user_id);
+CREATE INDEX idx_suggested_contents_content_id ON suggested_contents(content_id);
