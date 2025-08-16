@@ -26,7 +26,7 @@ class AuthController(
     @PostMapping("/register")
     fun register(@RequestBody user: AuthService.SignupRequest) = authService.registerByCredentials(user)
 
-    @Operation(summary = "구글 회원가입", description = "구글 계정으로 회원가입합니다")
+    @Operation(summary = "구글 회원가입 (미구현)", description = "구글 계정으로 회원가입합니다 (필요하시면 개발 해 드릴게요!)",  deprecated = true)
     @PostMapping("/register/google")
     fun registerGoogle(@RequestBody user: AuthService.SignupProviderRequest) =
         authService.registerByGoogle(user)

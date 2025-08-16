@@ -28,6 +28,8 @@ data class User(
     @Column(name = "school_status")
     var schoolStatus: String? = null,
 
+    var major: String? = null,
+
     @Column(name = "grade")
     var grade: String? = null, // 성적
 

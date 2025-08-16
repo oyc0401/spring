@@ -7,6 +7,7 @@ data class UserUpdateDto(
     val email: JsonNullable<String?> = JsonNullable.undefined(),
     val school: JsonNullable<String?> = JsonNullable.undefined(),
     val schoolStatus: JsonNullable<String?> = JsonNullable.undefined(),
+    val major: JsonNullable<String?> = JsonNullable.undefined(),
     val grade: JsonNullable<String?> = JsonNullable.undefined(),
     val isGradePublic: JsonNullable<Boolean> = JsonNullable.undefined(),
     val residenceCity: JsonNullable<String?> = JsonNullable.undefined(),

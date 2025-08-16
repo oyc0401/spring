@@ -28,6 +28,7 @@ abstract class UserMapper {
         dto.email.ifPresent { user.email = it }
         dto.school.ifPresent { user.school = it }
         dto.schoolStatus.ifPresent { user.schoolStatus = it }
+        dto.major.ifPresent { user.major = it }
         dto.grade.ifPresent { user.grade = it }
         dto.isGradePublic.ifPresent { user.isGradePublic = it ?: false }
         dto.residenceCity.ifPresent { user.residenceCity = it }
